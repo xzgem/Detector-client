@@ -1,5 +1,9 @@
 package com.ryoua.controller;
 
+import com.ryoua.acquire.BaseSystemInfoAcquire;
+import com.ryoua.acquire.SystemInfoAcquire;
+import com.ryoua.model.SystemInfo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,9 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
  **/
 @RestController
 public class SystemController {
-    @RequestMapping(value = "/SystemInfo", method = RequestMethod.GET)
-    public String SystemInfo() {
+    @Autowired
+    private BaseSystemInfoAcquire systemInfoAcquire;
 
-        return "";
+    @RequestMapping(value = "/SystemInfo", method = RequestMethod.GET)
+    public SystemInfo SystemInfo() {
+        return systemInfoAcquire.getSystemInfo();
     }
 }
