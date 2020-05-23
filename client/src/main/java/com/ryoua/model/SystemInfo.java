@@ -17,6 +17,7 @@ import java.util.Date;
 @NoArgsConstructor
 @ToString
 public class SystemInfo {
+    private String host;
     private String ip;
     private String mac;
     private String javaVersion;
@@ -24,5 +25,5 @@ public class SystemInfo {
     private String osVersion;
     private String username;
     private Object other;
-    private Date updateTime;
+    private String updateTime;
 }

@@ -31,6 +31,7 @@ public class BaseSystemInfoAcquire implements SystemInfoAcquire {
             }
             systemInfo.setIp(sIP);
             systemInfo.setMac(sMAC);
+            systemInfo.setHost(address.getHostName());
         } catch (Exception e) {
             e.printStackTrace();
         }
