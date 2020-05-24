@@ -7,19 +7,17 @@ import com.ryoua.utils.TimeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
-import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.http.*;
 
-import java.util.Date;
 
 /**
  * @Author: RyouA
  * @Date: 2020/5/12 - 1:51 下午
  **/
-@Service
+@RestController
 @Slf4j
 public class SystemController {
     @Autowired
@@ -28,7 +26,6 @@ public class SystemController {
     @Autowired
     private RestTemplate restTemplate;
 
-    @GetMapping(value = "/SystemInfo")
     public void SystemInfo() {
         try {
             HttpHeaders headers = new HttpHeaders();
@@ -41,5 +38,12 @@ public class SystemController {
             e.printStackTrace();
             log.error("发送系统信息失败");
         }
+    }
+
+    @GetMapping("/systemInfo")
+    public Result<?> getSystemInfo() {
+        SystemInfo systemInfo = systemInfoAcquire.getSystemInfo();
+        systemInfo.setUpdateTime(TimeUtil.getNowTime());
+        return Result.SUCCESS(systemInfo);
     }
 }
