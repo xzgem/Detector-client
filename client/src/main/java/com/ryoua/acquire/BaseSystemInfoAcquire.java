@@ -10,13 +10,16 @@ import java.util.Locale;
 import java.util.Properties;
 
 /**
+ * 获取系统的基本信息
  * @Author: RyouA
  * @Date: 2020/5/23 - 7:46 下午
  **/
 @Service
 public class BaseSystemInfoAcquire implements SystemInfoAcquire {
 
-    // 得到计算机的ip地址和mac地址
+    /**
+     * 得到计算机的ip地址和mac地址
+     */
     public void getNetConfig(SystemInfo systemInfo) {
         try {
             InetAddress address = InetAddress.getLocalHost();
@@ -37,7 +40,10 @@ public class BaseSystemInfoAcquire implements SystemInfoAcquire {
         }
     }
 
-    // 得到计算机的操作系统名称,操作系统版本
+    /**
+     * 得到计算机的操作系统名称,操作系统版本
+     * @param systemInfo
+     */
     public void getOsConfig(SystemInfo systemInfo) {
         try {
             Properties props = System.getProperties();
@@ -48,7 +54,10 @@ public class BaseSystemInfoAcquire implements SystemInfoAcquire {
         }
     }
 
-    //其它的一些东西,会有用到的时候的
+    /**
+     * 其它的一些东西,会有用到的时候的
+     * @param systemInfo
+     */
     public void getOtherInfo(SystemInfo systemInfo) {
         Properties props = System.getProperties();
         systemInfo.setJavaVersion(props.getProperty("java.version"));
