@@ -11,17 +11,17 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SystemInfoTaskConfig {
     @Bean
-    public JobDetail task() {
+    public JobDetail systemTask() {
         return JobBuilder.newJob(SystemInfoTask.class).withIdentity("systemInfoTask").storeDurably().build();
     }
 
     @Bean
-    public Trigger testQuartzTrigger() {
-        //5秒执行一次
+    public Trigger SystemQuartzTrigger() {
+        // 一小时执行一次
         SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule()
                 .withIntervalInHours(1)
                 .repeatForever();
-        return TriggerBuilder.newTrigger().forJob(task())
+        return TriggerBuilder.newTrigger().forJob(systemTask())
                 .withIdentity("systemInfoTask")
                 .withSchedule(scheduleBuilder)
                 .build();

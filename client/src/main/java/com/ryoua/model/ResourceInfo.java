@@ -45,4 +45,9 @@ public class ResourceInfo {
      * Cpu核心数
      */
     private Integer cpuCores;
+
+    /**
+     * 更新时间
+     */
+    private String updateTime;
 }

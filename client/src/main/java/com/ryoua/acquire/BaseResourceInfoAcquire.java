@@ -4,6 +4,7 @@ import com.ryoua.model.DiskInfo;
 import com.ryoua.model.ResourceInfo;
 import com.ryoua.utils.FormatUtil;
 import com.sun.management.OperatingSystemMXBean;
+import org.springframework.stereotype.Service;
 import oshi.SystemInfo;
 import oshi.hardware.CentralProcessor;
 
@@ -21,6 +22,7 @@ import java.util.List;
  * * @Author: RyouA
  * * @Date: 2020/7/3
  **/
+@Service
 public class BaseResourceInfoAcquire implements ResourceInfoAcquire {
     private static final int CPUTIME = 500;
 
@@ -67,7 +69,8 @@ public class BaseResourceInfoAcquire implements ResourceInfoAcquire {
         for (File file : roots) {
             DiskInfo diskInfo = new DiskInfo();
             diskInfo.setDiskCapacity(file.getTotalSpace() / 1024 / 1024 / 1024 + "GB");
-            diskInfo.setDiskPercentage((double) (file.getUsableSpace() / file.getTotalSpace()));
+            System.out.println(file.getUsableSpace() / file.getTotalSpace());
+            diskInfo.setDiskPercentage((file.getUsableSpace() * 1.0 / file.getTotalSpace()));
             diskInfo.setMemoryUsage(file.getUsableSpace() / 1024 / 1024 / 1024 + "GB");
             diskInfos.add(diskInfo);
         }

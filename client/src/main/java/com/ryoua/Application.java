@@ -21,7 +21,7 @@ public class Application {
         SpringApplication.run(Application.class, args);
         log.info("系统信息发送定时任务开启");
         SystemInfoTaskConfig systemInfoTask = new SystemInfoTaskConfig();
-        systemInfoTask.testQuartzTrigger();
+        systemInfoTask.SystemQuartzTrigger();
     }
 
     @Bean
