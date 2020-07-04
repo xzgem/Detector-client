@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.List;
+
 /**
  * * @Author: RyouA
  * * @Date: 2020/7/3
@@ -19,17 +21,28 @@ public class ResourceInfo {
      */
     private Double memoryPercentage;
 
+    /**
+     * 内存已占用
+     */
     private String memoryUsage;
+
+    /**
+     * 内存总容量
+     */
+    private String memoryCapacity;
+
     /**
      * 磁盘使用占比
      */
-    private Integer diskPercentage;
+    private List<DiskInfo> diskInfos;
 
-    private String diskCapacity;
+    /**
+     * Cpu占用
+     */
+    private Double cpuPercentage;
 
-    private String memoryCapacity;
-
-    private String cpuPercentage;
-
-    private String cpuCores;
+    /**
+     * Cpu核心数
+     */
+    private Integer cpuCores;
 }
