@@ -20,7 +20,7 @@ public class ResourceInfoTaskConfig {
     public Trigger ResourceQuartzTrigger() {
         // 5秒执行一次
         SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule()
-                .withIntervalInSeconds(5)
+                .withIntervalInSeconds(3)
                 .repeatForever();
         return TriggerBuilder.newTrigger().forJob(resourceTask())
                 .withIdentity("resourceInfoTask")

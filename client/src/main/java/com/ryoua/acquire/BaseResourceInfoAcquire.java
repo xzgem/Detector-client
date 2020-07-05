@@ -69,7 +69,6 @@ public class BaseResourceInfoAcquire implements ResourceInfoAcquire {
         for (File file : roots) {
             DiskInfo diskInfo = new DiskInfo();
             diskInfo.setDiskCapacity(file.getTotalSpace() / 1024 / 1024 / 1024 + "GB");
-            System.out.println(file.getUsableSpace() / file.getTotalSpace());
             diskInfo.setDiskPercentage((file.getUsableSpace() * 1.0 / file.getTotalSpace()));
             diskInfo.setMemoryUsage(file.getUsableSpace() / 1024 / 1024 / 1024 + "GB");
             diskInfos.add(diskInfo);
@@ -89,8 +88,6 @@ public class BaseResourceInfoAcquire implements ResourceInfoAcquire {
         SystemInfo systemInfo = new SystemInfo();
         CentralProcessor processor = systemInfo.getHardware().getProcessor();
         resourceInfo.setCpuCores(processor.getLogicalProcessorCount());
-        System.out.println(processor.getSystemLoadAverage());
-        System.out.println(processor.getSystemCpuLoad());
         resourceInfo.setCpuPercentage(processor.getSystemCpuLoad());
         return resourceInfo;
     }
