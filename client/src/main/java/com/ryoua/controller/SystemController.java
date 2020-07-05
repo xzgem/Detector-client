@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.http.*;
 
@@ -43,14 +44,13 @@ public class SystemController {
 
     public void SystemInfo() {
         try {
-            System.out.println(port);
             HttpHeaders headers = new HttpHeaders();
             SystemInfo systemInfo = systemInfoAcquire.getSystemInfo();
             HttpEntity<SystemInfo> request = new HttpEntity<>(systemInfo, headers);
             systemInfo.setUpdateTime(TimeUtil.getNowTime());
             String result = this.restTemplate.postForObject("http://" + host + port + "/systemInfo", request, String.class);
             log.info(result);
-        } catch (Exception e) {
+        } catch (ResourceAccessException e) {
             log.error("发送系统信息失败");
         }
     }
@@ -63,7 +63,7 @@ public class SystemController {
             resourceInfo.setUpdateTime(TimeUtil.getNowTime());
             String result = this.restTemplate.postForObject("http://" + host + port + "/resourceInfo", request, String.class);
             log.info(result);
-        } catch (Exception e) {
+        } catch (ResourceAccessException e) {
             log.error("发送系统信息失败");
         }
     }

@@ -5,6 +5,8 @@ import com.ryoua.task.config.SystemInfoTaskConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
@@ -16,12 +18,18 @@ import org.springframework.web.client.RestTemplate;
  **/
 @SpringBootApplication
 @Slf4j
-public class Application {
+public class Application extends SpringBootServletInitializer {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
         log.info("系统信息发送定时任务开启");
         SystemInfoTaskConfig systemInfoTask = new SystemInfoTaskConfig();
         systemInfoTask.SystemQuartzTrigger();
+    }
+
+    @Override//为了打包springboot项目
+    protected SpringApplicationBuilder configure(
+            SpringApplicationBuilder builder) {
+        return builder.sources(this.getClass());
     }
 
     @Bean

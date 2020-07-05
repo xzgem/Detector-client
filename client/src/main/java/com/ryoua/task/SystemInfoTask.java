@@ -14,7 +14,6 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
  * @Date: 2020/5/23 - 8:29 下午
  **/
 @Component
-@Slf4j
 public class SystemInfoTask extends QuartzJobBean {
     @Autowired
     private SystemController systemController;

@@ -18,9 +18,9 @@ public class ResourceInfoTaskConfig {
 
     @Bean
     public Trigger ResourceQuartzTrigger() {
-        // 5秒执行一次
+        // 1秒执行一次
         SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule()
-                .withIntervalInSeconds(3)
+                .withIntervalInSeconds(1)
                 .repeatForever();
         return TriggerBuilder.newTrigger().forJob(resourceTask())
                 .withIdentity("resourceInfoTask")

@@ -17,7 +17,7 @@ public class SystemInfoTaskConfig {
 
     @Bean
     public Trigger SystemQuartzTrigger() {
-        // 一小时执行一次
+        // 1小时执行一次
         SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule()
                 .withIntervalInHours(1)
                 .repeatForever();

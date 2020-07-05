@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
  * * @Date: 2020/7/4
  **/
 @Component
-@Slf4j
 public class ResourceInfoTask extends QuartzJobBean {
     @Autowired
     private SystemController systemController;
