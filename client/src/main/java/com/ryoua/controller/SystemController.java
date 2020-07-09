@@ -48,7 +48,7 @@ public class SystemController {
             SystemInfo systemInfo = systemInfoAcquire.getSystemInfo();
             HttpEntity<SystemInfo> request = new HttpEntity<>(systemInfo, headers);
             systemInfo.setUpdateTime(TimeUtil.getNowTime());
-            String result = this.restTemplate.postForObject("http://" + host + port + "/systemInfo", request, String.class);
+            String result = this.restTemplate.postForObject("http://" + host + ":" + port + "/systemInfo", request, String.class);
             log.info(result);
         } catch (ResourceAccessException e) {
             log.error("发送系统信息失败");
@@ -61,7 +61,7 @@ public class SystemController {
             ResourceInfo resourceInfo = resourceInfoAcquire.getResourceInfo();
             HttpEntity<ResourceInfo> request = new HttpEntity<>(resourceInfo, headers);
             resourceInfo.setUpdateTime(TimeUtil.getNowTime());
-            String result = this.restTemplate.postForObject("http://" + host + port + "/resourceInfo", request, String.class);
+            String result = this.restTemplate.postForObject("http://" + host + ":" + port + "/resourceInfo", request, String.class);
             log.info(result);
         } catch (ResourceAccessException e) {
             log.error("发送系统信息失败");
@@ -69,7 +69,7 @@ public class SystemController {
     }
 
     @GetMapping("/")
-    public Result<?> getSystemInfo() {
+    public Result<?> getInfo() {
         List<Object> list = new ArrayList<>();
         SystemInfo systemInfo = systemInfoAcquire.getSystemInfo();
         ResourceInfo resourceInfo = resourceInfoAcquire.getResourceInfo();
@@ -81,5 +81,19 @@ public class SystemController {
         list.add(resourceInfo);
 
         return Result.SUCCESS(list);
+    }
+
+    @GetMapping("/systemInfo")
+    public Result<?> getSystemInfo() {
+        SystemInfo systemInfo = systemInfoAcquire.getSystemInfo();
+        systemInfo.setUpdateTime(TimeUtil.getNowTime());
+        return Result.SUCCESS(systemInfo);
+    }
+
+    @GetMapping("/resourceInfo")
+    public Result<?> getResourceInfo() {
+        ResourceInfo resourceInfo = resourceInfoAcquire.getResourceInfo();
+        resourceInfo.setUpdateTime(TimeUtil.getNowTime());
+        return Result.SUCCESS(resourceInfo);
     }
 }

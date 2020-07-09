@@ -1,8 +1,6 @@
 package com.ryoua.task;
 
-import com.alibaba.fastjson.JSON;
 import com.ryoua.controller.SystemController;
-import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
