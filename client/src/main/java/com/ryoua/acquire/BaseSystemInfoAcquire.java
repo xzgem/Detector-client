@@ -28,9 +28,11 @@ public class BaseSystemInfoAcquire implements SystemInfoAcquire {
             String sIP = address.getHostAddress();
             String sMAC = "";
             Formatter formatter = new Formatter();
-            for (int i = 0; i < mac.length; i++) {
-                sMAC = formatter.format(Locale.getDefault(), "%02X%s", mac[i],
-                        (i < mac.length - 1) ? "-" : "").toString();
+            if (mac != null) {
+                for (int i = 0; i < mac.length; i++) {
+                    sMAC = formatter.format(Locale.getDefault(), "%02X%s", mac[i],
+                            (i < mac.length - 1) ? "-" : "").toString();
+                }
             }
             systemInfo.setIp(sIP);
             systemInfo.setMac(sMAC);

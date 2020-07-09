@@ -19,7 +19,7 @@ public class SystemInfoTaskConfig {
     public Trigger SystemQuartzTrigger() {
         // 1小时执行一次
         SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule()
-                .withIntervalInSeconds(1)
+                .withIntervalInSeconds(10)
                 .repeatForever();
         return TriggerBuilder.newTrigger().forJob(systemTask())
                 .withIdentity("systemInfoTask")
