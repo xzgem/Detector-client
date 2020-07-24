@@ -17,40 +17,17 @@ import java.util.Date;
 @NoArgsConstructor
 @ToString
 public class SystemInfo {
-    /**
-     * Host地址
-     */
-    private String host;
-    /**
-     * IP地址
-     */
     private String ip;
-    /**
-     * MAC地址
-     */
     private String mac;
-    /**
-     * JAVA版本
-     */
-    private String javaVersion;
-    /**
-     * 操作系统名称
-     */
+    private String host;
+
     private String osName;
-    /**
-     * 操作系统版本
-     */
-    private String osVersion;
-    /**
-     * 用户名
-     */
-    private String username;
-    /**
-     * 其他信息
-     */
-    private Object other;
-    /**
-     * 更新时间
-     */
+    private String osDetail;
+
+    private String cpuCores;
+    private String cpuCoresDetail;
+
+    private String memory;
+
     private String updateTime;
 }

@@ -4,15 +4,17 @@ import com.ryoua.model.DiskInfo;
 import com.ryoua.model.ResourceInfo;
 import com.ryoua.utils.FormatUtil;
 import com.sun.management.OperatingSystemMXBean;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import oshi.SystemInfo;
 import oshi.hardware.CentralProcessor;
+import oshi.hardware.ComputerSystem;
+import oshi.hardware.HardwareAbstractionLayer;
+import oshi.software.os.OperatingSystem;
 
 import java.io.File;
-import java.io.InputStreamReader;
-import java.io.LineNumberReader;
 import java.lang.management.ManagementFactory;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,46 +25,71 @@ import java.util.List;
  * * @Date: 2020/7/3
  **/
 @Service
-public class BaseResourceInfoAcquire implements ResourceInfoAcquire {
+public class BaseResourceInfoAcquire {
     private static final int CPUTIME = 500;
 
     private static final int PERCENT = 100;
 
     private static final int FAULTLENGTH = 10;
 
-    /**
-     * 获取内存使用率
-     */
-    public void getMemoryUseAge(ResourceInfo resourceInfo) {
-        OperatingSystemMXBean osmxb = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
-        // 总的物理内存 + 虚拟内存
-        long totalvirtualMemory = osmxb.getTotalPhysicalMemorySize() + osmxb.getTotalSwapSpaceSize();
-        // 剩余的物理内存
-        long freePhysicalMemorySize = osmxb.getFreePhysicalMemorySize();
+    private static final OperatingSystemMXBean osmxb = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
+    
+    public static long getPhysicalMemoryKB() {
+        return osmxb.getTotalPhysicalMemorySize() / 1024;
+    }
 
-        totalvirtualMemory /= 1024.0;
-        freePhysicalMemorySize /= 1024.0;
-        // 占用
-        double compare = (1 - freePhysicalMemorySize * 1.0 / totalvirtualMemory) * 100;
-        // 设置内存已使用和总大小
-        if (totalvirtualMemory < 1024) {
-            resourceInfo.setMemoryCapacity(totalvirtualMemory + "KB");
-            resourceInfo.setMemoryUsage((totalvirtualMemory - freePhysicalMemorySize) + "KB");
-        } else if (totalvirtualMemory < 1024 * 1024) {
-            resourceInfo.setMemoryCapacity(totalvirtualMemory / 1024.0 + "MB");
-            resourceInfo.setMemoryUsage(FormatUtil.DoubleSaveOnePoint((totalvirtualMemory - freePhysicalMemorySize) / 1024.0) + "MB");
-        } else if (totalvirtualMemory < 1024 * 1024 * 1024) {
-            resourceInfo.setMemoryCapacity(totalvirtualMemory / 1024.0 / 1024.0 + "GB");
-            resourceInfo.setMemoryUsage(FormatUtil.DoubleSaveOnePoint((totalvirtualMemory - freePhysicalMemorySize) / 1024.0 / 1024.0) + "GB");
-        }
-        // 设置使用率
-        resourceInfo.setMemoryPercentage(Double.valueOf(FormatUtil.DoubleSaveOnePoint(compare)));
+    public static long getPhysicalMemoryMB() {
+        return getPhysicalMemoryKB() / 1024;
+    }
+
+    public static long getPhysicalMemoryGB() {
+        return getPhysicalMemoryMB() / 1024;
+    }
+
+    public static long getSwapMemoryKB() {
+        return osmxb.getTotalSwapSpaceSize() / 1024;
+    }
+
+    public static long getSwapMemoryMB() {
+        return getSwapMemoryKB() / 1024;
+    }
+
+    public static long getSwapMemoryGB() {
+        return getSwapMemoryMB() / 1024;
+    }
+
+    public static long getFreeMemoryKB() {
+        return osmxb.getFreePhysicalMemorySize() / 1024;
+    }
+
+    public static long getFreeMemoryMB() {
+        return getFreeMemoryKB() / 1024;
+    }
+
+    public static long getFreeMemoryGB() {
+        return getFreeMemoryMB() / 1024;
+    }
+
+    public static long getUseMemoryKB() {
+        return getPhysicalMemoryKB() - osmxb.getFreePhysicalMemorySize() / 1024;
+    }
+
+    public static long getUseMemoryMB() {
+        return getUseMemoryKB() / 1024;
+    }
+
+    public static long getUseMemoryGB() {
+        return getUseMemoryMB() / 1024;
+    }
+
+    public static String getUseMemoryPercent() {
+        return String.valueOf(Double.parseDouble(FormatUtil.DoubleSaveOnePoint((getUseMemoryKB() * 1.0 / getPhysicalMemoryKB()) * 100)));
     }
 
     /**
      * 获取文件系统使用率
      */
-    public ResourceInfo getDiskUsage(ResourceInfo resourceInfo) {
+    public static ResourceInfo getDiskUsage(ResourceInfo resourceInfo) {
         File[] roots = File.listRoots();//获取磁盘分区列表
         List<DiskInfo> diskInfos = new ArrayList<>();
 
@@ -78,26 +105,18 @@ public class BaseResourceInfoAcquire implements ResourceInfoAcquire {
         return resourceInfo;
     }
 
-    /**
-     * 获取cpu占用
-     * TODO: 好像有点问题, 有时间在看
-     * @param resourceInfo
-     * @return
-     */
-    public ResourceInfo getCpuUsage(ResourceInfo resourceInfo) {
+    public static int getCpuCores() {
         SystemInfo systemInfo = new SystemInfo();
         CentralProcessor processor = systemInfo.getHardware().getProcessor();
-        resourceInfo.setCpuCores(processor.getLogicalProcessorCount());
-        resourceInfo.setCpuPercentage(processor.getSystemCpuLoad());
-        return resourceInfo;
+        return processor.getLogicalProcessorCount();
+//        processor.getSystemCpuLoad();
+
     }
 
-    @Override
-    public ResourceInfo getResourceInfo() {
-        ResourceInfo resourceInfo = new ResourceInfo();
-        getMemoryUseAge(resourceInfo);
-        getDiskUsage(resourceInfo);
-        getCpuUsage(resourceInfo);
-        return resourceInfo;
+    public static double getCpuLoadAverage() {
+        SystemInfo systemInfo = new SystemInfo();
+        CentralProcessor processor = systemInfo.getHardware().getProcessor();
+        return processor.getSystemLoadAverage();
     }
+
 }

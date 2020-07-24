@@ -19,6 +19,6 @@ public class ResourceInfoTask extends QuartzJobBean {
 
     @Override
     protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-        systemController.ResourceInfo();
+//        systemController.ResourceInfo();
     }
 }

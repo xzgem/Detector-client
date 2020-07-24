@@ -1,7 +1,7 @@
 package com.ryoua.controller;
 
+import com.ryoua.acquire.BaseResourceInfoAcquire;
 import com.ryoua.acquire.BaseSystemInfoAcquire;
-import com.ryoua.acquire.ResourceInfoAcquire;
 import com.ryoua.model.ResourceInfo;
 import com.ryoua.model.Result;
 import com.ryoua.model.SystemInfo;
@@ -37,63 +37,68 @@ public class SystemController {
     private BaseSystemInfoAcquire systemInfoAcquire;
 
     @Autowired
-    private ResourceInfoAcquire resourceInfoAcquire;
+    private BaseResourceInfoAcquire resourceInfoAcquire;
 
     @Autowired
     private RestTemplate restTemplate;
 
-    public void SystemInfo() {
-        try {
-            HttpHeaders headers = new HttpHeaders();
-            SystemInfo systemInfo = systemInfoAcquire.getSystemInfo();
-            HttpEntity<SystemInfo> request = new HttpEntity<>(systemInfo, headers);
-            systemInfo.setUpdateTime(TimeUtil.getNowTime());
-            String result = this.restTemplate.postForObject("http://" + host + ":" + port + "/systemInfo", request, String.class);
-            log.info(result);
-        } catch (ResourceAccessException e) {
-            log.error("发送系统信息失败");
-        }
+    @GetMapping("/index")
+    public String index() {
+        return "123";
     }
 
-    public void ResourceInfo() {
-        try {
-            HttpHeaders headers = new HttpHeaders();
-            ResourceInfo resourceInfo = resourceInfoAcquire.getResourceInfo();
-            HttpEntity<ResourceInfo> request = new HttpEntity<>(resourceInfo, headers);
-            resourceInfo.setUpdateTime(TimeUtil.getNowTime());
-            String result = this.restTemplate.postForObject("http://" + host + ":" + port + "/resourceInfo", request, String.class);
-            log.info(result);
-        } catch (ResourceAccessException e) {
-            log.error("发送系统信息失败");
-        }
-    }
+//    public void SystemInfo() {
+//        try {
+//            HttpHeaders headers = new HttpHeaders();
+//            SystemInfo systemInfo = systemInfoAcquire.getSystemInfo();
+//            HttpEntity<SystemInfo> request = new HttpEntity<>(systemInfo, headers);
+//            systemInfo.setUpdateTime(TimeUtil.getNowTime());
+//            String result = this.restTemplate.postForObject("http://" + host + ":" + port + "/systemInfo", request, String.class);
+//            log.info(result);
+//        } catch (ResourceAccessException e) {
+//            log.error("发送系统信息失败");
+//        }
+//    }
 
-    @GetMapping("/")
-    public Result<?> getInfo() {
-        List<Object> list = new ArrayList<>();
-        SystemInfo systemInfo = systemInfoAcquire.getSystemInfo();
-        ResourceInfo resourceInfo = resourceInfoAcquire.getResourceInfo();
+//    public void ResourceInfo() {
+//        try {
+//            HttpHeaders headers = new HttpHeaders();
+//            ResourceInfo resourceInfo = resourceInfoAcquire.getResourceInfo();
+//            HttpEntity<ResourceInfo> request = new HttpEntity<>(resourceInfo, headers);
+//            resourceInfo.setUpdateTime(TimeUtil.getNowTime());
+//            String result = this.restTemplate.postForObject("http://" + host + ":" + port + "/resourceInfo", request, String.class);
+//            log.info(result);
+//        } catch (ResourceAccessException e) {
+//            log.error("发送系统信息失败");
+//        }
+//    }
 
-        systemInfo.setUpdateTime(TimeUtil.getNowTime());
-        resourceInfo.setUpdateTime(TimeUtil.getNowTime());
+//    @GetMapping("/")
+//    public Result<?> getInfo() {
+//        List<Object> list = new ArrayList<>();
+//        SystemInfo systemInfo = systemInfoAcquire.getSystemInfo();
+//        ResourceInfo resourceInfo = resourceInfoAcquire.getResourceInfo();
+//
+//        systemInfo.setUpdateTime(TimeUtil.getNowTime());
+//        resourceInfo.setUpdateTime(TimeUtil.getNowTime());
+//
+//        list.add(systemInfo);
+//        list.add(resourceInfo);
+//
+//        return Result.SUCCESS(list);
+//    }
 
-        list.add(systemInfo);
-        list.add(resourceInfo);
+//    @GetMapping("/systemInfo")
+//    public Result<?> getSystemInfo() {
+//        SystemInfo systemInfo = systemInfoAcquire.getSystemInfo();
+//        systemInfo.setUpdateTime(TimeUtil.getNowTime());
+//        return Result.SUCCESS(systemInfo);
+//    }
 
-        return Result.SUCCESS(list);
-    }
-
-    @GetMapping("/systemInfo")
-    public Result<?> getSystemInfo() {
-        SystemInfo systemInfo = systemInfoAcquire.getSystemInfo();
-        systemInfo.setUpdateTime(TimeUtil.getNowTime());
-        return Result.SUCCESS(systemInfo);
-    }
-
-    @GetMapping("/resourceInfo")
-    public Result<?> getResourceInfo() {
-        ResourceInfo resourceInfo = resourceInfoAcquire.getResourceInfo();
-        resourceInfo.setUpdateTime(TimeUtil.getNowTime());
-        return Result.SUCCESS(resourceInfo);
-    }
+//    @GetMapping("/resourceInfo")
+//    public Result<?> getResourceInfo() {
+//        ResourceInfo resourceInfo = resourceInfoAcquire.getResourceInfo();
+//        resourceInfo.setUpdateTime(TimeUtil.getNowTime());
+//        return Result.SUCCESS(resourceInfo);
+//    }
 }

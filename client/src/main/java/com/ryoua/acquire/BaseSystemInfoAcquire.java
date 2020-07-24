@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.Formatter;
 import java.util.Locale;
 import java.util.Properties;
@@ -15,62 +17,40 @@ import java.util.Properties;
  * @Date: 2020/5/23 - 7:46 下午
  **/
 @Service
-public class BaseSystemInfoAcquire implements SystemInfoAcquire {
+public class BaseSystemInfoAcquire {
+    private static final Formatter formatter = new Formatter();
 
-    /**
-     * 得到计算机的ip地址和mac地址
-     */
-    public void getNetConfig(SystemInfo systemInfo) {
-        try {
-            InetAddress address = InetAddress.getLocalHost();
-            NetworkInterface ni = NetworkInterface.getByInetAddress(address);
-            byte[] mac = ni.getHardwareAddress();
-            String sIP = address.getHostAddress();
-            String sMAC = "";
-            Formatter formatter = new Formatter();
-            if (mac != null) {
-                for (int i = 0; i < mac.length; i++) {
-                    sMAC = formatter.format(Locale.getDefault(), "%02X%s", mac[i],
-                            (i < mac.length - 1) ? "-" : "").toString();
-                }
+    private static final Properties properties = System.getProperties();
+
+    public static String getIp() throws UnknownHostException {
+        InetAddress address = InetAddress.getLocalHost();
+        return address.getHostAddress();
+    }
+
+    public static String getMac() throws UnknownHostException, SocketException {
+        InetAddress address = InetAddress.getLocalHost();
+        NetworkInterface ni = NetworkInterface.getByInetAddress(address);
+        byte[] mac = ni.getHardwareAddress();
+        String sMAC = "";
+        if (mac != null) {
+            for (int i = 0; i < mac.length; i++) {
+                sMAC = formatter.format(Locale.getDefault(), "%02X%s", mac[i],
+                        (i < mac.length - 1) ? "-" : "").toString();
             }
-            systemInfo.setIp(sIP);
-            systemInfo.setMac(sMAC);
-            systemInfo.setHost(address.getHostName());
-        } catch (Exception e) {
-            e.printStackTrace();
         }
+        return sMAC;
     }
 
-    /**
-     * 得到计算机的操作系统名称,操作系统版本
-     * @param systemInfo
-     */
-    public void getOsConfig(SystemInfo systemInfo) {
-        try {
-            Properties props = System.getProperties();
-            systemInfo.setOsName(props.getProperty("os.name"));
-            systemInfo.setOsVersion(props.getProperty("os.version"));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public static String getHost() throws UnknownHostException {
+        InetAddress address = InetAddress.getLocalHost();
+        return address.getHostName();
     }
 
-    /**
-     * 其它的一些东西,会有用到的时候的
-     * @param systemInfo
-     */
-    public void getOtherInfo(SystemInfo systemInfo) {
-        Properties props = System.getProperties();
-        systemInfo.setJavaVersion(props.getProperty("java.version"));
-        systemInfo.setUsername(props.getProperty("user.name"));
+    public static String getOsName() {
+        return properties.getProperty("os.name");
     }
 
-    public SystemInfo getSystemInfo() {
-        SystemInfo systemInfo = new SystemInfo();
-        getNetConfig(systemInfo);
-        getOsConfig(systemInfo);
-        getOtherInfo(systemInfo);
-        return systemInfo;
+    public static String getOsVersion() {
+        return properties.getProperty("os.version");
     }
 }

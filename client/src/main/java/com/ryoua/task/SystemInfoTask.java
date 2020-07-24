@@ -18,6 +18,6 @@ public class SystemInfoTask extends QuartzJobBean {
 
     @Override
     public void executeInternal(JobExecutionContext context) {
-        systemController.SystemInfo();
+//        systemController.SystemInfo();
     }
 }

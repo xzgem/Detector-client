@@ -22,8 +22,6 @@ public class Application extends SpringBootServletInitializer {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
         log.info("系统信息发送定时任务开启");
-        SystemInfoTaskConfig systemInfoTask = new SystemInfoTaskConfig();
-        systemInfoTask.SystemQuartzTrigger();
     }
 
     @Override//为了打包springboot项目
