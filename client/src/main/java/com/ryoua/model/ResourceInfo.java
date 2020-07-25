@@ -16,11 +16,12 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 public class ResourceInfo {
-    private Double memoryPercentage;
-    private String memoryUsage;
-    private String memoryCapacity;
-    private List<DiskInfo> diskInfos;
-    private Double cpuPercentage;
-    private Integer cpuCores;
-    private String updateTime;
+    private long memoryAll;
+    private long memoryUse;
+    private long memorySwapAll;
+    private long memorySwapUse;
+
+    private long cpuLoad;
+    private long cpuLoadAvg;
+
 }

@@ -16,18 +16,24 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class SystemInfo {
+public class MachineInfo {
     private String ip;
-    private String mac;
     private String host;
+    private String networkDetail;
 
     private String osName;
     private String osDetail;
 
-    private String cpuCores;
-    private String cpuCoresDetail;
+    private long cpuCores;
+    private String cpuDetail;
 
-    private String memory;
+    private long memory;
+    private String memoryDetail;
+
+    private long disk;
+    private String diskDetail;
+
+    private String fileDetail;
 
     private String updateTime;
 }

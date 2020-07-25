@@ -1,23 +1,11 @@
 package com.ryoua.controller;
 
-import com.ryoua.acquire.BaseResourceInfoAcquire;
-import com.ryoua.acquire.BaseSystemInfoAcquire;
-import com.ryoua.model.ResourceInfo;
-import com.ryoua.model.Result;
-import com.ryoua.model.SystemInfo;
-import com.ryoua.utils.TimeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.http.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -32,12 +20,6 @@ public class SystemController {
 
     @Value("${detector.main.port}")
     private String port;
-
-    @Autowired
-    private BaseSystemInfoAcquire systemInfoAcquire;
-
-    @Autowired
-    private BaseResourceInfoAcquire resourceInfoAcquire;
 
     @Autowired
     private RestTemplate restTemplate;
