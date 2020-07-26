@@ -1,0 +1,8 @@
+server:
+  port: 10000
+easyEye:
+  main:
+    host: 127.0.0.1
+    port: 8083
+  auto-register: true
+  name: "localhost"

@@ -1,7 +1,5 @@
 package com.ryoua;
 
-import com.ryoua.task.SystemInfoTask;
-import com.ryoua.task.config.SystemInfoTaskConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

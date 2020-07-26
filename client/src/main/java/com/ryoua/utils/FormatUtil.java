@@ -8,7 +8,7 @@ import java.text.DecimalFormat;
  **/
 public class FormatUtil {
     public static String DoubleSaveOnePoint(Double T) {
-        DecimalFormat df = new DecimalFormat("#.##");
+        DecimalFormat df = new DecimalFormat("#.#");
         return df.format(T);
     }
 }

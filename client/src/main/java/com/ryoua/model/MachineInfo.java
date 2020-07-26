@@ -17,8 +17,10 @@ import java.util.Date;
 @NoArgsConstructor
 @ToString
 public class MachineInfo {
+    private String oid;
     private String ip;
     private String host;
+    private String mac;
     private String networkDetail;
 
     private String osName;
@@ -28,12 +30,14 @@ public class MachineInfo {
     private String cpuDetail;
 
     private long memory;
+    private String memoryUnit;
     private String memoryDetail;
 
     private long disk;
     private String diskDetail;
+    private String diskUnit;
 
     private String fileDetail;
-
     private String updateTime;
+    private int autoRegister;
 }

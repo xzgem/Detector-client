@@ -34,7 +34,6 @@ public class SystemInfoTest {
 
 
     public static String traffic(NetworkIF[] networkIFs) {
-
         StringBuilder stringBuilder = new StringBuilder();
         for (NetworkIF net : networkIFs) {
             boolean hasData = net.getBytesRecv() > 0 || net.getBytesSent() > 0 || net.getPacketsRecv() > 0
@@ -52,5 +51,6 @@ public class SystemInfoTest {
     }
 
     public static void main(String[] args) {
+
     }
 }

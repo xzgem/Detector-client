@@ -1,7 +1,7 @@
 package com.ryoua.service;
 
 import com.ryoua.acquire.MachineInfoAcquire;
-import com.ryoua.acquire.ResourceInfoAcquire;
+import com.ryoua.acquire.LoadInfoAcquire;
 import com.ryoua.model.MachineInfo;
 import com.ryoua.utils.TimeUtil;
 import org.springframework.stereotype.Service;
@@ -18,14 +18,14 @@ public class MachineInfoService {
         MachineInfo machineInfo = new MachineInfo();
         machineInfo.setIp(MachineInfoAcquire.getIp());
         machineInfo.setHost(MachineInfoAcquire.getHost());
-//        machineInfo.setCpuCores(ResourceInfoAcquire.getCpuCores());
+        machineInfo.setCpuCores(MachineInfoAcquire.getCpuCores());
         machineInfo.setCpuDetail(MachineInfoAcquire.getCpuDetail());
         machineInfo.setUpdateTime(TimeUtil.getNowTime());
         machineInfo.setOsName(MachineInfoAcquire.getOsName());
         machineInfo.setOsDetail(MachineInfoAcquire.getOSDetail());
         machineInfo.setNetworkDetail(MachineInfoAcquire.getNetworkDetail());
         machineInfo.setMemoryDetail(MachineInfoAcquire.getMemory());
-        machineInfo.setMemory(ResourceInfoAcquire.getPhysicalMemoryGB());
+        machineInfo.setMemory(LoadInfoAcquire.getPhysicalMemoryGB());
         machineInfo.setDiskDetail(MachineInfoAcquire.getDisks());
         machineInfo.setFileDetail(MachineInfoAcquire.getFileSystem());
         return machineInfo;

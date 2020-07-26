@@ -12,12 +12,12 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
  * @Date: 2020/5/23 - 8:29 下午
  **/
 @Component
-public class SystemInfoTask extends QuartzJobBean {
+public class MachineInfoTask extends QuartzJobBean {
     @Autowired
     private SystemController systemController;
 
     @Override
     public void executeInternal(JobExecutionContext context) {
-//        systemController.SystemInfo();
+        systemController.SystemInfo();
     }
 }

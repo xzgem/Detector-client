@@ -1,23 +1,16 @@
 package com.ryoua.acquire;
 
-import cn.hutool.system.oshi.OshiUtil;
-import com.ryoua.model.DiskInfo;
-import com.ryoua.model.ResourceInfo;
 import com.ryoua.utils.FormatUtil;
 import com.sun.management.OperatingSystemMXBean;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import oshi.SystemInfo;
 import oshi.hardware.CentralProcessor;
-import oshi.hardware.ComputerSystem;
 import oshi.hardware.GlobalMemory;
 import oshi.hardware.HardwareAbstractionLayer;
 import oshi.software.os.OSProcess;
 import oshi.software.os.OperatingSystem;
 import oshi.util.Util;
 
-import java.io.File;
 import java.lang.management.ManagementFactory;
 import java.util.*;
 
@@ -28,7 +21,7 @@ import java.util.*;
  * * @Date: 2020/7/3
  **/
 @Service
-public class ResourceInfoAcquire {
+public class LoadInfoAcquire {
     private static final oshi.SystemInfo si = new SystemInfo();
 
     private static final HardwareAbstractionLayer hal = si.getHardware();
@@ -39,59 +32,53 @@ public class ResourceInfoAcquire {
 
     private static final Properties properties = System.getProperties();
 
-    private static final int CPUTIME = 500;
-
-    private static final int PERCENT = 100;
-
-    private static final int FAULTLENGTH = 10;
-
     private static final OperatingSystemMXBean osmxb = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
     
-    public static long getPhysicalMemoryKB() {
+    public static double getPhysicalMemoryKB() {
         return osmxb.getTotalPhysicalMemorySize() / 1024;
     }
 
-    public static long getPhysicalMemoryMB() {
+    public static double getPhysicalMemoryMB() {
         return getPhysicalMemoryKB() / 1024;
     }
 
-    public static long getPhysicalMemoryGB() {
+    public static double getPhysicalMemoryGB() {
         return getPhysicalMemoryMB() / 1024;
     }
 
-    public static long getSwapMemoryKB() {
+    public static double getSwapMemoryKB() {
         return osmxb.getTotalSwapSpaceSize() / 1024;
     }
 
-    public static long getSwapMemoryMB() {
+    public static double getSwapMemoryMB() {
         return getSwapMemoryKB() / 1024;
     }
 
-    public static long getSwapMemoryGB() {
+    public static double getSwapMemoryGB() {
         return getSwapMemoryMB() / 1024;
     }
 
-    public static long getFreeMemoryKB() {
+    public static double getFreeMemoryKB() {
         return osmxb.getFreePhysicalMemorySize() / 1024;
     }
 
-    public static long getFreeMemoryMB() {
+    public static double getFreeMemoryMB() {
         return getFreeMemoryKB() / 1024;
     }
 
-    public static long getFreeMemoryGB() {
+    public static double getFreeMemoryGB() {
         return getFreeMemoryMB() / 1024;
     }
 
-    public static long getUseMemoryKB() {
+    public static double getUseMemoryKB() {
         return getPhysicalMemoryKB() - osmxb.getFreePhysicalMemorySize() / 1024;
     }
 
-    public static long getUseMemoryMB() {
+    public static double getUseMemoryMB() {
         return getUseMemoryKB() / 1024;
     }
 
-    public static long getUseMemoryGB() {
+    public static double getUseMemoryGB() {
         return getUseMemoryMB() / 1024;
     }
 
@@ -99,26 +86,35 @@ public class ResourceInfoAcquire {
         return String.valueOf(Double.parseDouble(FormatUtil.DoubleSaveOnePoint((getUseMemoryKB() * 1.0 / getPhysicalMemoryKB()) * 100)));
     }
 
-    private static String getMemoryUse() {
+    public static double getSwapMemoryUse() {
         GlobalMemory memory = hal.getMemory();
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Memory: " + oshi.util.FormatUtil.formatBytes(memory.getAvailable()) + "/"
-                + oshi.util.FormatUtil.formatBytes(memory.getTotal()));
-        stringBuilder.append("Swap used: " + oshi.util.FormatUtil.formatBytes(memory.getSwapUsed()) + "/"
-                + oshi.util.FormatUtil.formatBytes(memory.getSwapTotal()));
-        return stringBuilder.toString();
+        return Double.parseDouble(oshi.util.FormatUtil.formatBytes(memory.getSwapUsed()).split(" ")[0]);
+    }
+
+    public static double getSwapMemory() {
+        GlobalMemory memory = hal.getMemory();
+        return Double.parseDouble(oshi.util.FormatUtil.formatBytes(memory.getSwapTotal()).split(" ")[0]);
+    }
+
+    public static double getMemoryAll() {
+        GlobalMemory memory = hal.getMemory();
+        return Double.parseDouble(oshi.util.FormatUtil.formatBytes(memory.getTotal()).split(" ")[0]);
+    }
+
+    public static String getMemoryUnit() {
+        GlobalMemory memory = hal.getMemory();
+        return oshi.util.FormatUtil.formatBytes(memory.getTotal()).split(" ")[1];
+    }
+
+    public static double getMemoryAllUse() {
+        GlobalMemory memory = hal.getMemory();
+        return Double.parseDouble(oshi.util.FormatUtil.formatBytes(memory.getAvailable()).split(" ")[0]);
     }
 
     public static int getCpuCores() {
         SystemInfo systemInfo = new SystemInfo();
         CentralProcessor processor = systemInfo.getHardware().getProcessor();
         return processor.getLogicalProcessorCount();
-    }
-
-    public static double getCpuLoadAverage() {
-        SystemInfo systemInfo = new SystemInfo();
-        CentralProcessor processor = systemInfo.getHardware().getProcessor();
-        return processor.getSystemLoadAverage();
     }
 
     private static void getCpuUse() {
@@ -158,6 +154,12 @@ public class ResourceInfoAcquire {
         System.out.println(procCpu.toString());
     }
 
+    public static double getCpuLoad() {
+        CentralProcessor processor = hal.getProcessor();
+        Util.sleep(1000);
+        return Double.parseDouble(FormatUtil.DoubleSaveOnePoint(processor.getSystemCpuLoadBetweenTicks() * 100));
+    }
+
     private static void getTop5Processes() {
         GlobalMemory memory = hal.getMemory();
         // Sort by highest CPU
@@ -172,10 +174,6 @@ public class ResourceInfoAcquire {
                     oshi.util.FormatUtil.formatBytes(p.getResidentSetSize()),
                     p.getName());
         }
-    }
-
-    public static void main(String[] args) {
-        getTop5Processes();
     }
 
 }

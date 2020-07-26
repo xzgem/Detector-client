@@ -1,11 +1,21 @@
 package com.ryoua.controller;
 
+import com.ryoua.acquire.MachineInfoAcquire;
+import com.ryoua.model.MachineInfo;
+import com.ryoua.model.Result;
+import com.ryoua.utils.TimeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
+
+import java.net.SocketException;
+import java.net.UnknownHostException;
 
 
 /**
@@ -14,73 +24,29 @@ import org.springframework.web.client.RestTemplate;
  **/
 @RestController
 @Slf4j
-public class SystemController {
-    @Value("${detector.main.host}")
-    private String host;
-
-    @Value("${detector.main.port}")
-    private String port;
-
-    @Autowired
-    private RestTemplate restTemplate;
-
-    @GetMapping("/index")
-    public String index() {
-        return "123";
+public class SystemController extends BaseController{
+    public void SystemInfo() {
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            MachineInfo machineInfo = machineInfoService.getMachineInfo();
+            HttpEntity<MachineInfo> request = new HttpEntity<>(machineInfo, headers);
+            machineInfo.setUpdateTime(TimeUtil.getNowTime());
+            machineInfo.setOid(MachineInfoAcquire.getOid());
+            String result = this.restTemplate.postForObject("http://" + host + ":" + port + "/machineInfo/register", request, String.class);
+            log.info(result);
+        } catch (ResourceAccessException e) {
+            log.error("发送系统信息失败");
+        } catch (SocketException | UnknownHostException e) {
+            e.printStackTrace();
+        }
     }
 
-//    public void SystemInfo() {
-//        try {
-//            HttpHeaders headers = new HttpHeaders();
-//            SystemInfo systemInfo = systemInfoAcquire.getSystemInfo();
-//            HttpEntity<SystemInfo> request = new HttpEntity<>(systemInfo, headers);
-//            systemInfo.setUpdateTime(TimeUtil.getNowTime());
-//            String result = this.restTemplate.postForObject("http://" + host + ":" + port + "/systemInfo", request, String.class);
-//            log.info(result);
-//        } catch (ResourceAccessException e) {
-//            log.error("发送系统信息失败");
-//        }
-//    }
 
-//    public void ResourceInfo() {
-//        try {
-//            HttpHeaders headers = new HttpHeaders();
-//            ResourceInfo resourceInfo = resourceInfoAcquire.getResourceInfo();
-//            HttpEntity<ResourceInfo> request = new HttpEntity<>(resourceInfo, headers);
-//            resourceInfo.setUpdateTime(TimeUtil.getNowTime());
-//            String result = this.restTemplate.postForObject("http://" + host + ":" + port + "/resourceInfo", request, String.class);
-//            log.info(result);
-//        } catch (ResourceAccessException e) {
-//            log.error("发送系统信息失败");
-//        }
-//    }
-
-//    @GetMapping("/")
-//    public Result<?> getInfo() {
-//        List<Object> list = new ArrayList<>();
-//        SystemInfo systemInfo = systemInfoAcquire.getSystemInfo();
-//        ResourceInfo resourceInfo = resourceInfoAcquire.getResourceInfo();
-//
-//        systemInfo.setUpdateTime(TimeUtil.getNowTime());
-//        resourceInfo.setUpdateTime(TimeUtil.getNowTime());
-//
-//        list.add(systemInfo);
-//        list.add(resourceInfo);
-//
-//        return Result.SUCCESS(list);
-//    }
-
-//    @GetMapping("/systemInfo")
-//    public Result<?> getSystemInfo() {
-//        SystemInfo systemInfo = systemInfoAcquire.getSystemInfo();
-//        systemInfo.setUpdateTime(TimeUtil.getNowTime());
-//        return Result.SUCCESS(systemInfo);
-//    }
-
-//    @GetMapping("/resourceInfo")
-//    public Result<?> getResourceInfo() {
-//        ResourceInfo resourceInfo = resourceInfoAcquire.getResourceInfo();
-//        resourceInfo.setUpdateTime(TimeUtil.getNowTime());
-//        return Result.SUCCESS(resourceInfo);
-//    }
+    @GetMapping("/machineInfo")
+    public Result<?> getMachineInfo() throws UnknownHostException, SocketException {
+        MachineInfo machineInfo = machineInfoService.getMachineInfo();
+        machineInfo.setUpdateTime(TimeUtil.getNowTime());
+        machineInfo.setOid(MachineInfoAcquire.getOid());
+        return Result.SUCCESS(machineInfo);
+    }
 }

@@ -27,5 +27,9 @@ public class DiskInfo {
     /**
      * 磁盘已占用
      */
-    private String memoryUsage;
+    private String diskUsage;
+
+    private String diskId;
+
+    private String diskName;
 }

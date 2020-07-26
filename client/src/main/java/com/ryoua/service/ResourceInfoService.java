@@ -1,6 +1,6 @@
 package com.ryoua.service;
 
-import com.ryoua.model.ResourceInfo;
+import com.ryoua.model.LoadInfo;
 import org.springframework.stereotype.Service;
 
 /**
@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
  **/
 @Service
 public class ResourceInfoService {
-    public ResourceInfo getResourceInfo() {
-        ResourceInfo resourceInfo = new ResourceInfo();
+    public LoadInfo getResourceInfo() {
+        LoadInfo loadInfo = new LoadInfo();
 
-        return resourceInfo;
+        return loadInfo;
     }
 
 }

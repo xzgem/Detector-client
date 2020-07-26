@@ -8,14 +8,13 @@ import oshi.software.os.OSFileStore;
 import oshi.software.os.OperatingSystem;
 import oshi.util.FormatUtil;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.util.Arrays;
-import java.util.Formatter;
-import java.util.Locale;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * 获取系统的基本信息
@@ -44,18 +43,26 @@ public class MachineInfoAcquire {
         return address.getHostAddress();
     }
 
-    public static String getMac() throws UnknownHostException, SocketException {
-        InetAddress address = InetAddress.getLocalHost();
-        NetworkInterface ni = NetworkInterface.getByInetAddress(address);
-        byte[] mac = ni.getHardwareAddress();
-        String sMAC = "";
-        if (mac != null) {
-            for (int i = 0; i < mac.length; i++) {
-                sMAC = formatter.format(Locale.getDefault(), "%02X%s", mac[i],
-                        (i < mac.length - 1) ? "-" : "").toString();
-            }
+    public static String getOid() throws UnknownHostException, SocketException {
+        try {
+            Process process = Runtime.getRuntime().exec(
+                    new String[] { "wmic", "cpu", "get", "ProcessorId" });
+            process.getOutputStream().close();
+            Scanner sc = new Scanner(process.getInputStream());
+            String property = sc.next();
+            String serial = sc.next();
+            System.out.println(property + ": " + serial);
+            return serial;
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return sMAC;
+        return "";
+    }
+
+    public static int getCpuCores() {
+        SystemInfo systemInfo = new SystemInfo();
+        CentralProcessor processor = systemInfo.getHardware().getProcessor();
+        return processor.getLogicalProcessorCount();
     }
 
     public static String getHost() throws UnknownHostException {
@@ -126,4 +133,6 @@ public class MachineInfoAcquire {
         }
         return stringBuilder.toString();
     }
+
+
 }
