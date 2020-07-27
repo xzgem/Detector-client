@@ -25,7 +25,7 @@ public class MachineInfoService {
         machineInfo.setOsDetail(MachineInfoAcquire.getOSDetail());
         machineInfo.setNetworkDetail(MachineInfoAcquire.getNetworkDetail());
         machineInfo.setMemoryDetail(MachineInfoAcquire.getMemory());
-        machineInfo.setMemory(LoadInfoAcquire.getPhysicalMemoryGB());
+        machineInfo.setMemory((long) LoadInfoAcquire.getPhysicalMemoryGB());
         machineInfo.setDiskDetail(MachineInfoAcquire.getDisks());
         machineInfo.setFileDetail(MachineInfoAcquire.getFileSystem());
         return machineInfo;
