@@ -33,7 +33,7 @@ public class LoadController extends BaseController {
             LoadInfo loadInfo = loadInfoService.getLoadInfo();
             HttpEntity<LoadInfo> request = new HttpEntity<>(loadInfo, headers);
             loadInfo.setUpdateTime(TimeUtil.getNowTime());
-            if (oid.equals("null")) {
+            if (("null").equals(oid)) {
                 loadInfo.setOid(MachineInfoAcquire.getOid());
             } else {
                 loadInfo.setOid(oid);
