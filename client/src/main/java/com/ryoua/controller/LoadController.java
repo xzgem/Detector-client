@@ -33,10 +33,11 @@ public class LoadController extends BaseController {
             LoadInfo loadInfo = loadInfoService.getLoadInfo();
             HttpEntity<LoadInfo> request = new HttpEntity<>(loadInfo, headers);
             loadInfo.setUpdateTime(TimeUtil.getNowTime());
-            if (oid.equals("null"))
+            if (oid.equals("null")) {
                 loadInfo.setOid(MachineInfoAcquire.getOid());
-            else
+            } else {
                 loadInfo.setOid(oid);
+            }
             loadInfo.setUpdateTimeMills(System.currentTimeMillis());
             String result = this.restTemplate.postForObject("http://" + host + ":" + port + "/loadInfo/register", request, String.class);
             log.info(result);
