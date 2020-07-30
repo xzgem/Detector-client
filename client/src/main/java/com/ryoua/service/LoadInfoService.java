@@ -1,5 +1,6 @@
 package com.ryoua.service;
 
+import com.ryoua.config.Constants;
 import com.ryoua.acquire.LoadInfoAcquire;
 import com.ryoua.model.LoadInfo;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ public class LoadInfoService {
      */
     public LoadInfo getLoadInfo() {
         LoadInfo loadInfo = new LoadInfo();
+        loadInfo.setMid(Constants.mid);
         // 获取Cpu负载
         loadInfo.setCpuLoad(LoadInfoAcquire.getCpuLoad());
         // 获取全部内存
@@ -26,7 +28,8 @@ public class LoadInfoService {
         // 获取已使用的交换内存
         loadInfo.setMemorySwapUse(LoadInfoAcquire.getSwapMemoryUse());
         // 设置内存的单位
-        loadInfo.setMemoryUnit(LoadInfoAcquire.getMemoryUnit());
+        loadInfo.setMemoryUnit(LoadInfoAcquire.getMemoryAllUnit());
+        loadInfo.setMemorySwapUnit(LoadInfoAcquire.getMemorySwapUnit());
         return loadInfo;
     }
 }

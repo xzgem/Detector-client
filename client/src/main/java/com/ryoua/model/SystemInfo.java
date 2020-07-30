@@ -16,28 +16,26 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class MachineInfo {
-    private String oid;
+public class SystemInfo {
+    private String id;
     private String ip;
     private String host;
-    private String mac;
-    private String networkDetail;
 
     private String osName;
-    private String osDetail;
 
-    private long cpuCores;
+    private double cpuCores;
     private String cpuDetail;
 
-    private long memory;
+    private double memory;
     private String memoryUnit;
-    private String memoryDetail;
 
-    private long disk;
+    private double disk;
     private String diskDetail;
     private String diskUnit;
 
     private String fileDetail;
     private String updateTime;
+    private long updateTimeMills;
+
     private int autoRegister;
 }

@@ -1,11 +1,10 @@
 package com.ryoua.controller;
 
 import com.ryoua.service.LoadInfoService;
-import com.ryoua.service.MachineInfoService;
-import lombok.extern.slf4j.Slf4j;
+import com.ryoua.service.SystemInfoService;
+import com.ryoua.utils.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -14,8 +13,7 @@ import org.springframework.web.client.RestTemplate;
  **/
 public class BaseController {
 
-    @Value("${easyEye.name:null}")
-    protected String oid;
+
 
     @Value("${easyEye.main.host}")
     protected String host;
@@ -33,5 +31,5 @@ public class BaseController {
     protected LoadInfoService loadInfoService;
 
     @Autowired
-    protected MachineInfoService machineInfoService;
+    protected SystemInfoService systemInfoService;
 }

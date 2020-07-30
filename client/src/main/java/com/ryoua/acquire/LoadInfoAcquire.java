@@ -34,15 +34,15 @@ public class LoadInfoAcquire {
 
     private static final OperatingSystemMXBean osmxb = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
     
-    public static double getPhysicalMemoryKB() {
+    public static long getPhysicalMemoryKB() {
         return osmxb.getTotalPhysicalMemorySize() / 1024;
     }
 
-    public static double getPhysicalMemoryMB() {
+    public static long getPhysicalMemoryMB() {
         return getPhysicalMemoryKB() / 1024;
     }
 
-    public static double getPhysicalMemoryGB() {
+    public static long getPhysicalMemoryGB() {
         return getPhysicalMemoryMB() / 1024;
     }
 
@@ -101,20 +101,19 @@ public class LoadInfoAcquire {
         return Double.parseDouble(oshi.util.FormatUtil.formatBytes(memory.getTotal()).split(" ")[0]);
     }
 
-    public static String getMemoryUnit() {
+    public static String getMemoryAllUnit() {
         GlobalMemory memory = hal.getMemory();
         return oshi.util.FormatUtil.formatBytes(memory.getTotal()).split(" ")[1];
+    }
+
+    public static String getMemorySwapUnit() {
+        GlobalMemory memory = hal.getMemory();
+        return oshi.util.FormatUtil.formatBytes(memory.getSwapTotal()).split(" ")[1];
     }
 
     public static double getMemoryAllUse() {
         GlobalMemory memory = hal.getMemory();
         return Double.parseDouble(oshi.util.FormatUtil.formatBytes(memory.getAvailable()).split(" ")[0]);
-    }
-
-    public static int getCpuCores() {
-        SystemInfo systemInfo = new SystemInfo();
-        CentralProcessor processor = systemInfo.getHardware().getProcessor();
-        return processor.getLogicalProcessorCount();
     }
 
     private static void getCpuUse() {

@@ -22,7 +22,7 @@ import java.util.*;
  * @Date: 2020/5/23 - 7:46 下午
  **/
 @Service
-public class MachineInfoAcquire {
+public class SystemInfoAcquire {
     private static final oshi.SystemInfo si = new SystemInfo();
 
     private static final HardwareAbstractionLayer hal = si.getHardware();
@@ -43,20 +43,8 @@ public class MachineInfoAcquire {
         return address.getHostAddress();
     }
 
-    public static String getOid() throws UnknownHostException, SocketException {
-        try {
-            Process process = Runtime.getRuntime().exec(
-                    new String[] { "wmic", "cpu", "get", "ProcessorId" });
-            process.getOutputStream().close();
-            Scanner sc = new Scanner(process.getInputStream());
-            String property = sc.next();
-            String serial = sc.next();
-            System.out.println(property + ": " + serial);
-            return serial;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return "";
+    public static String getMid() throws UnknownHostException {
+        return getIp();
     }
 
     public static int getCpuCores() {

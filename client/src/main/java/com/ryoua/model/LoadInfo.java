@@ -7,6 +7,7 @@ import lombok.ToString;
 
 
 /**
+ * 负载信息
  * * @Author: RyouA
  * * @Date: 2020/7/3
  **/
@@ -15,11 +16,13 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class LoadInfo {
-    private String oid;
+    private String mid;
 
     private String memoryUnit;
     private double memoryAll;
     private double memoryUse;
+
+    private String memorySwapUnit;
     private double memorySwapAll;
     private double memorySwapUse;
 

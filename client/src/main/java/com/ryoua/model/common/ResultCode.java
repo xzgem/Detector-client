@@ -1,4 +1,4 @@
-package com.ryoua.model;
+package com.ryoua.model.common;
 
 public enum ResultCode {
 
