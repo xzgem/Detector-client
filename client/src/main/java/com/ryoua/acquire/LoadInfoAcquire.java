@@ -7,6 +7,7 @@ import oshi.SystemInfo;
 import oshi.hardware.CentralProcessor;
 import oshi.hardware.GlobalMemory;
 import oshi.hardware.HardwareAbstractionLayer;
+import oshi.hardware.NetworkIF;
 import oshi.software.os.OSProcess;
 import oshi.software.os.OperatingSystem;
 import oshi.util.Util;
@@ -21,70 +22,7 @@ import java.util.*;
  * * @Date: 2020/7/3
  **/
 @Service
-public class LoadInfoAcquire {
-    private static final oshi.SystemInfo si = new SystemInfo();
-
-    private static final HardwareAbstractionLayer hal = si.getHardware();
-
-    private static final OperatingSystem os = si.getOperatingSystem();
-
-    private static final Formatter formatter = new Formatter();
-
-    private static final Properties properties = System.getProperties();
-
-    private static final OperatingSystemMXBean osmxb = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
-    
-    public static long getPhysicalMemoryKB() {
-        return osmxb.getTotalPhysicalMemorySize() / 1024;
-    }
-
-    public static long getPhysicalMemoryMB() {
-        return getPhysicalMemoryKB() / 1024;
-    }
-
-    public static long getPhysicalMemoryGB() {
-        return getPhysicalMemoryMB() / 1024;
-    }
-
-    public static double getSwapMemoryKB() {
-        return osmxb.getTotalSwapSpaceSize() / 1024;
-    }
-
-    public static double getSwapMemoryMB() {
-        return getSwapMemoryKB() / 1024;
-    }
-
-    public static double getSwapMemoryGB() {
-        return getSwapMemoryMB() / 1024;
-    }
-
-    public static double getFreeMemoryKB() {
-        return osmxb.getFreePhysicalMemorySize() / 1024;
-    }
-
-    public static double getFreeMemoryMB() {
-        return getFreeMemoryKB() / 1024;
-    }
-
-    public static double getFreeMemoryGB() {
-        return getFreeMemoryMB() / 1024;
-    }
-
-    public static double getUseMemoryKB() {
-        return getPhysicalMemoryKB() - osmxb.getFreePhysicalMemorySize() / 1024;
-    }
-
-    public static double getUseMemoryMB() {
-        return getUseMemoryKB() / 1024;
-    }
-
-    public static double getUseMemoryGB() {
-        return getUseMemoryMB() / 1024;
-    }
-
-    public static String getUseMemoryPercent() {
-        return String.valueOf(Double.parseDouble(FormatUtil.DoubleSaveOnePoint((getUseMemoryKB() * 1.0 / getPhysicalMemoryKB()) * 100)));
-    }
+public class LoadInfoAcquire extends BaseAcquire {
 
     public static double getSwapMemoryUse() {
         GlobalMemory memory = hal.getMemory();
@@ -175,4 +113,7 @@ public class LoadInfoAcquire {
         }
     }
 
+    public static void main(String[] args) {
+        getTop5Processes();
+    }
 }

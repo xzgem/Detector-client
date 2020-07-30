@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Author: RyouA
@@ -29,9 +30,7 @@ public class SystemInfo {
     private double memory;
     private String memoryUnit;
 
-    private double disk;
-    private String diskDetail;
-    private String diskUnit;
+    private List<DiskInfo> diskInfos;
 
     private String fileDetail;
     private String updateTime;

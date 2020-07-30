@@ -15,11 +15,6 @@ import lombok.ToString;
 @ToString
 public class DiskInfo {
     /**
-     * 磁盘使用率
-     */
-    private Double diskPercentage;
-
-    /**
      * 磁盘大小
      */
     private String diskCapacity;
@@ -28,8 +23,6 @@ public class DiskInfo {
      * 磁盘已占用
      */
     private String diskUsage;
-
-    private String diskId;
 
     private String diskName;
 }

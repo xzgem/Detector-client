@@ -5,14 +5,9 @@ import oshi.SystemInfo;
 import oshi.hardware.*;
 import oshi.software.os.FileSystem;
 import oshi.software.os.OSFileStore;
-import oshi.software.os.OperatingSystem;
 import oshi.util.FormatUtil;
 
-import java.io.File;
-import java.io.IOException;
 import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.*;
 
@@ -22,17 +17,7 @@ import java.util.*;
  * @Date: 2020/5/23 - 7:46 下午
  **/
 @Service
-public class SystemInfoAcquire {
-    private static final oshi.SystemInfo si = new SystemInfo();
-
-    private static final HardwareAbstractionLayer hal = si.getHardware();
-
-    private static final OperatingSystem os = si.getOperatingSystem();
-
-    private static final Formatter formatter = new Formatter();
-
-    private static final Properties properties = System.getProperties();
-
+public class SystemInfoAcquire extends BaseAcquire {
 
     public static String getOsName() {
         return os.toString();
