@@ -24,17 +24,17 @@ public class SystemInfo {
 
     private String osName;
 
-    private double cpuCores;
+    private Double cpuCores;
     private String cpuDetail;
 
-    private double memory;
+    private Double memory;
     private String memoryUnit;
 
     private List<DiskInfo> diskInfos;
 
     private String fileDetail;
     private String updateTime;
-    private long updateTimeMills;
+    private Long updateTimeMills;
 
-    private int autoRegister;
+    private Integer autoRegister;
 }

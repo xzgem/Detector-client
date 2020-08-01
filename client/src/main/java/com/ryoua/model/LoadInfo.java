@@ -19,14 +19,14 @@ public class LoadInfo {
     private String mid;
 
     private String memoryUnit;
-    private double memoryAll;
-    private double memoryUse;
+    private Double memoryAll;
+    private Double memoryUse;
 
     private String memorySwapUnit;
-    private double memorySwapAll;
-    private double memorySwapUse;
+    private Double memorySwapAll;
+    private Double memorySwapUse;
 
-    private double cpuLoad;
+    private Double cpuLoad;
     private String updateTime;
-    private long updateTimeMills;
+    private Long updateTimeMills;
 }

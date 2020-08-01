@@ -14,6 +14,10 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class Process {
-    private String pid;
-    private String cpu;
+    private String mid;
+    private Integer pid;
+    private String name;
+    private Double cpuLoad;
+    private Double memoryLoad;
+    private String memoryUnit;
 }

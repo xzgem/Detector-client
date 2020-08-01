@@ -14,15 +14,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class DiskInfo {
-    /**
-     * 磁盘大小
-     */
+    private String mid;
     private String diskCapacity;
-
-    /**
-     * 磁盘已占用
-     */
     private String diskUsage;
-
     private String diskName;
 }

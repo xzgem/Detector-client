@@ -13,8 +13,6 @@ import org.springframework.web.client.RestTemplate;
  **/
 public class BaseController {
 
-
-
     @Value("${easyEye.main.host}")
     protected String host;
 
