@@ -18,13 +18,13 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 public class SystemInfo {
-    private String id;
+    private String mid;
     private String ip;
     private String host;
 
     private String osName;
 
-    private Double cpuCores;
+    private Integer cpuCores;
     private String cpuDetail;
 
     private Double memory;

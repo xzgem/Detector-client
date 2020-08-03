@@ -17,7 +17,7 @@ import java.net.UnknownHostException;
 public class SystemInfoService {
     public SystemInfo getSystemInfo() throws UnknownHostException {
         SystemInfo systemInfo = new SystemInfo();
-        systemInfo.setId(Constants.mid);
+        systemInfo.setMid(Constants.mid);
         systemInfo.setIp(SystemInfoAcquire.getIp());
         systemInfo.setHost(SystemInfoAcquire.getHost());
         systemInfo.setCpuCores(SystemInfoAcquire.getCpuCores());

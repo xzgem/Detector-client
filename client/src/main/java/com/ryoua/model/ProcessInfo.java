@@ -13,7 +13,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Process {
+public class ProcessInfo {
     private String mid;
     private Integer pid;
     private String name;

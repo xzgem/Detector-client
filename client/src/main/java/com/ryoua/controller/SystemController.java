@@ -23,6 +23,7 @@ import java.net.UnknownHostException;
 public class SystemController extends BaseController {
     public void SystemInfo() {
         try {
+
             HttpHeaders headers = new HttpHeaders();
             SystemInfo systemInfo = systemInfoService.getSystemInfo();
             HttpEntity<SystemInfo> request = new HttpEntity<>(systemInfo, headers);
@@ -41,7 +42,7 @@ public class SystemController extends BaseController {
     public Result<?> getMachineInfo() throws UnknownHostException {
         SystemInfo systemInfo = systemInfoService.getSystemInfo();
         systemInfo.setUpdateTime(TimeUtil.getNowTime());
-        systemInfo.setId(SystemInfoAcquire.getMid());
+        systemInfo.setMid(SystemInfoAcquire.getMid());
         return Result.SUCCESS(systemInfo);
     }
 }
