@@ -27,8 +27,9 @@ public class SystemController extends BaseController {
             HttpHeaders headers = new HttpHeaders();
             SystemInfo systemInfo = systemInfoService.getSystemInfo();
             HttpEntity<SystemInfo> request = new HttpEntity<>(systemInfo, headers);
+            systemInfo.setAutoRegister(1);
             systemInfo.setUpdateTime(TimeUtil.getNowTime());
-            String result = this.restTemplate.postForObject("http://" + host + ":" + port + "/machineInfo/register", request, String.class);
+            String result = this.restTemplate.postForObject("http://" + host + ":" + port + "/machine/register", request, String.class);
             log.info(result);
         } catch (ResourceAccessException e) {
             log.error("发送系统信息失败");
