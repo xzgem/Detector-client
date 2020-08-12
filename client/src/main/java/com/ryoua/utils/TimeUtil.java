@@ -12,4 +12,8 @@ public class TimeUtil {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
         return dateFormat.format(new Date());
     }
+
+    public static Long getNowTimeMills() {
+        return System.currentTimeMillis();
+    }
 }

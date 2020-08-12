@@ -1,4 +1,4 @@
-package com.ryoua.model.common;
+package com.ryoua.system.model.common;
 
 import lombok.Data;
 import lombok.ToString;

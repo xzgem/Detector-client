@@ -1,7 +1,11 @@
 package com.ryoua.system.service;
 
+import com.ryoua.config.Constants;
 import com.ryoua.system.model.CpuLoad;
+import com.ryoua.system.model.LoadInfo;
 import com.ryoua.system.model.MemoryLoad;
+import com.ryoua.utils.TimeUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import oshi.SystemInfo;
 import oshi.hardware.CentralProcessor;
@@ -16,36 +20,38 @@ import java.util.concurrent.TimeUnit;
  * * @Date: 2020/8/12
  **/
 @Service
+@Slf4j
 public class LoadService {
-    public static void main(String[] args) {
-        System.out.println(getMemoryLoad());
-    }
-
-    private static CpuLoad getCpuLoad() throws InterruptedException {
+    public CpuLoad getCpuLoad() {
         SystemInfo systemInfo = new SystemInfo();
         CpuLoad cpuLoad = new CpuLoad();
-        CentralProcessor processor = systemInfo.getHardware().getProcessor();
-        long[] prevTicks = processor.getSystemCpuLoadTicks();
-        // 睡眠1s
-        TimeUnit.SECONDS.sleep(1);
-        long[] ticks = processor.getSystemCpuLoadTicks();
-        long nice = ticks[CentralProcessor.TickType.NICE.getIndex()] - prevTicks[CentralProcessor.TickType.NICE.getIndex()];
-        long irq = ticks[CentralProcessor.TickType.IRQ.getIndex()] - prevTicks[CentralProcessor.TickType.IRQ.getIndex()];
-        long softirq = ticks[CentralProcessor.TickType.SOFTIRQ.getIndex()] - prevTicks[CentralProcessor.TickType.SOFTIRQ.getIndex()];
-        long steal = ticks[CentralProcessor.TickType.STEAL.getIndex()] - prevTicks[CentralProcessor.TickType.STEAL.getIndex()];
-        long cSys = ticks[CentralProcessor.TickType.SYSTEM.getIndex()] - prevTicks[CentralProcessor.TickType.SYSTEM.getIndex()];
-        long user = ticks[CentralProcessor.TickType.USER.getIndex()] - prevTicks[CentralProcessor.TickType.USER.getIndex()];
-        long iowait = ticks[CentralProcessor.TickType.IOWAIT.getIndex()] - prevTicks[CentralProcessor.TickType.IOWAIT.getIndex()];
-        long idle = ticks[CentralProcessor.TickType.IDLE.getIndex()] - prevTicks[CentralProcessor.TickType.IDLE.getIndex()];
-        long totalCpu = user + nice + cSys + idle + iowait + irq + softirq + steal;
-        cpuLoad.setCpuCores(processor.getLogicalProcessorCount());
-        cpuLoad.setCpuSystemUse(new DecimalFormat("#.##%").format(cSys * 1.0 / totalCpu));
-        cpuLoad.setCpuUserUse(new DecimalFormat("#.##%").format(user * 1.0 / totalCpu));
-        cpuLoad.setCpuUsage(new DecimalFormat("#.##%").format(1.0-(idle * 1.0 / totalCpu)));
+        try {
+            CentralProcessor processor = systemInfo.getHardware().getProcessor();
+            long[] prevTicks = processor.getSystemCpuLoadTicks();
+            // 睡眠1s
+            TimeUnit.SECONDS.sleep(1);
+            long[] ticks = processor.getSystemCpuLoadTicks();
+            long nice = ticks[CentralProcessor.TickType.NICE.getIndex()] - prevTicks[CentralProcessor.TickType.NICE.getIndex()];
+            long irq = ticks[CentralProcessor.TickType.IRQ.getIndex()] - prevTicks[CentralProcessor.TickType.IRQ.getIndex()];
+            long softirq = ticks[CentralProcessor.TickType.SOFTIRQ.getIndex()] - prevTicks[CentralProcessor.TickType.SOFTIRQ.getIndex()];
+            long steal = ticks[CentralProcessor.TickType.STEAL.getIndex()] - prevTicks[CentralProcessor.TickType.STEAL.getIndex()];
+            long cSys = ticks[CentralProcessor.TickType.SYSTEM.getIndex()] - prevTicks[CentralProcessor.TickType.SYSTEM.getIndex()];
+            long user = ticks[CentralProcessor.TickType.USER.getIndex()] - prevTicks[CentralProcessor.TickType.USER.getIndex()];
+            long iowait = ticks[CentralProcessor.TickType.IOWAIT.getIndex()] - prevTicks[CentralProcessor.TickType.IOWAIT.getIndex()];
+            long idle = ticks[CentralProcessor.TickType.IDLE.getIndex()] - prevTicks[CentralProcessor.TickType.IDLE.getIndex()];
+            long totalCpu = user + nice + cSys + idle + iowait + irq + softirq + steal;
+            cpuLoad.setCpuCores(processor.getLogicalProcessorCount());
+            cpuLoad.setCpuSystemUse(new DecimalFormat("#.##%").format(cSys * 1.0 / totalCpu));
+            cpuLoad.setCpuUserUse(new DecimalFormat("#.##%").format(user * 1.0 / totalCpu));
+            cpuLoad.setCpuUsage(new DecimalFormat("#.##%").format(1.0 - (idle * 1.0 / totalCpu)));
+            cpuLoad.setMid(Constants.mid);
+        } catch (InterruptedException e) {
+            log.error(e.toString());
+        }
         return cpuLoad;
     }
 
-    private static MemoryLoad getMemoryLoad() {
+    public MemoryLoad getMemoryLoad() {
         SystemInfo systemInfo = new SystemInfo();
         MemoryLoad memoryLoad = new MemoryLoad();
         GlobalMemory memory = systemInfo.getHardware().getMemory();
@@ -60,7 +66,17 @@ public class LoadService {
         return memoryLoad;
     }
 
-    public static void setSysInfo(){
+    public LoadInfo getLoadInfo() {
+        LoadInfo loadInfo = new LoadInfo();
+        loadInfo.setCpuLoad(getCpuLoad());
+        loadInfo.setMemoryLoad(getMemoryLoad());
+        loadInfo.setMid(Constants.mid);
+        loadInfo.setUpdateTime(TimeUtil.getNowTime());
+        loadInfo.setUpdateTimeMills(TimeUtil.getNowTimeMills());
+        return loadInfo;
+    }
+
+    public void setSysInfo(){
         System.out.println("----------------操作系统信息----------------");
         Properties props = System.getProperties();
         //系统名称
@@ -72,7 +88,7 @@ public class LoadService {
     }
 
     // TODO: 暂时不用, 后面考虑JMX
-    public static void setJvmInfo(){
+    public void setJvmInfo(){
         System.out.println("----------------jvm信息----------------");
         Properties props = System.getProperties();
         Runtime runtime = Runtime.getRuntime();

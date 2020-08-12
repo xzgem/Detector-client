@@ -4,7 +4,7 @@ package com.ryoua.executor.command;
  * * @Author: RyouA
  * * @Date: 2020/8/5
  **/
-import com.ryoua.model.common.ExecuteResult;
+import com.ryoua.system.model.common.ExecuteResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

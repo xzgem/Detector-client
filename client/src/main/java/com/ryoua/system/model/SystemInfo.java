@@ -1,6 +1,5 @@
 package com.ryoua.system.model;
 
-import com.ryoua.model.DiskInfo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,12 +23,14 @@ public class SystemInfo {
 
     private String osName;
 
+    private String networkDetail;
+
     private Integer cpuCores;
     private String cpuDetail;
 
-    private Double memorySize;
-    private String memoryUnit;
+    private String memorySize;
 
+    private String fileSystemDetail;
     private List<DiskInfo> diskInfos;
 
     private String updateTime;

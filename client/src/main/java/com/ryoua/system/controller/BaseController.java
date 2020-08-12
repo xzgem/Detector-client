@@ -1,5 +1,7 @@
 package com.ryoua.system.controller;
 
+import com.ryoua.system.service.LoadService;
+import com.ryoua.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.client.RestTemplate;
@@ -20,4 +22,10 @@ public class BaseController {
 
     @Autowired
     protected RestTemplate restTemplate;
+
+    @Autowired
+    protected SystemService systemService;
+
+    @Autowired
+    protected LoadService loadService;
 }
