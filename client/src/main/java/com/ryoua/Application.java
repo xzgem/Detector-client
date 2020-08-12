@@ -19,7 +19,6 @@ import org.springframework.web.client.RestTemplate;
 public class Application extends SpringBootServletInitializer {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
-        log.info("系统信息发送定时任务开启");
     }
 
     @Override//为了打包springboot项目

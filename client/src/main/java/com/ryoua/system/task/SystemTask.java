@@ -1,21 +1,21 @@
-package com.ryoua.task;
+package com.ryoua.system.task;
 
-import com.ryoua.controller.SystemController;
+import com.ryoua.system.controller.SystemController;
 import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
-/*
- * @Author: RyouA
- * @Date: 2020/5/23 - 21:46
- */
+/**
+ * * @Author: RyouA
+ * * @Date: 2020/8/12
+ **/
 @Configuration
-public class SystemInfoTask extends QuartzJobBean {
+public class SystemTask extends QuartzJobBean {
     @Bean
     public JobDetail systemTask() {
-        return JobBuilder.newJob(SystemInfoTask.class).withIdentity("machineInfoTask").storeDurably().build();
+        return JobBuilder.newJob(SystemTask.class).withIdentity("systemInfoTask").storeDurably().build();
     }
 
     @Bean
@@ -25,7 +25,7 @@ public class SystemInfoTask extends QuartzJobBean {
                 .withIntervalInHours(1)
                 .repeatForever();
         return TriggerBuilder.newTrigger().forJob(systemTask())
-                .withIdentity("machineInfoTask")
+                .withIdentity("systemInfoTask")
                 .withSchedule(scheduleBuilder)
                 .build();
     }
@@ -35,6 +35,6 @@ public class SystemInfoTask extends QuartzJobBean {
 
     @Override
     public void executeInternal(JobExecutionContext context) {
-        systemController.SystemInfo();
+        systemController.sendSystemInfo();
     }
 }

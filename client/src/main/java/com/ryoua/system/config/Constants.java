@@ -1,6 +1,6 @@
-package com.ryoua.config;
+package com.ryoua.system.config;
 
-import com.ryoua.utils.StringUtil;
+import com.ryoua.system.utils.StringUtil;
 
 /**
  * * @Author: RyouA

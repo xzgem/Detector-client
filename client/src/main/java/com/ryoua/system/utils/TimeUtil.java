@@ -1,4 +1,4 @@
-package com.ryoua.utils;
+package com.ryoua.system.utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

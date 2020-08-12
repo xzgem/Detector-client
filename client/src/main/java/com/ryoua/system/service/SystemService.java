@@ -1,8 +1,8 @@
 package com.ryoua.system.service;
 
-import com.ryoua.config.Constants;
+import com.ryoua.system.config.Constants;
 import com.ryoua.system.model.SystemInfo;
-import com.ryoua.utils.TimeUtil;
+import com.ryoua.system.utils.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import oshi.hardware.*;
@@ -15,7 +15,6 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.Formatter;
-import java.util.Properties;
 
 /**
  * * @Author: RyouA
