@@ -24,4 +24,8 @@ public class TrafficInfoAcquire extends BaseAcquire {
         }
         return stringBuilder.toString();
     }
+
+    public static void main(String[] args) {
+        System.out.println(traffic());
+    }
 }

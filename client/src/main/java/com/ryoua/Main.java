@@ -47,27 +47,4 @@ class StreamGobbler extends Thread {
     }
 }
 
-public class Main {
-    public static void main(String args[]) {
-        try {
-            File file = new File("/logs/a.log");
-            file.createNewFile();
-            FileOutputStream fos = new FileOutputStream("/logs/a.log");
-            Runtime rt = Runtime.getRuntime();
-            Process proc = rt.exec("java -version");
 
-            // 重定向输出流和错误流
-            StreamGobbler errorGobbler = new StreamGobbler(proc.getErrorStream(), "ERROR");
-            StreamGobbler outputGobbler = new StreamGobbler(proc.getInputStream(), "OUTPUT", fos);
-
-            errorGobbler.start();
-            outputGobbler.start();
-            int exitVal = proc.waitFor();
-            System.out.println("ExitValue: " + exitVal);
-            fos.flush();
-            fos.close();
-        } catch (Throwable t) {
-            t.printStackTrace();
-        }
-    }
-}
