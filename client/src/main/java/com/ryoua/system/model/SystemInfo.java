@@ -31,7 +31,7 @@ public class SystemInfo {
     private String memorySize;
 
     private String fileSystemDetail;
-    private List<DiskInfo> diskInfos;
+    private List<Disk> diskInfos;
 
     private String updateTime;
     private Long updateTimeMills;

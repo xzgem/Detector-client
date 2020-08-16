@@ -2,6 +2,7 @@ package com.ryoua.system.controller;
 
 import com.ryoua.system.service.LoadService;
 import com.ryoua.system.service.SystemService;
+import com.ryoua.system.service.TrafficService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.client.RestTemplate;
@@ -28,4 +29,7 @@ public class BaseController {
 
     @Autowired
     protected LoadService loadService;
+
+    @Autowired
+    protected TrafficService trafficService;
 }

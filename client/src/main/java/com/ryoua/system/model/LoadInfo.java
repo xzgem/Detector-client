@@ -22,7 +22,7 @@ public class LoadInfo {
     private MemoryLoad memoryLoad;
     private List<ProcessLoad> processLoads;
     private DockerInfo dockerInfo;
-    private TrafficLoad trafficLoad;
+    private Traffic traffic;
 
     private String updateTime;
     private Long updateTimeMills;

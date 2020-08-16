@@ -7,18 +7,19 @@ import lombok.ToString;
 
 /**
  * * @Author: RyouA
- * * @Date: 2020/8/12
+ * * @Date: 2020/8/13
  **/
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class DiskInfo {
+public class ConnectionInfo {
     private String mid;
 
-    private String diskCapacity;
-    private String diskUsage;
-    private String diskName;
+    private String ip;
+    private Integer port;
+
+    private Integer autoRegister;
 
     private String updateTime;
     private Long updateTimeMills;

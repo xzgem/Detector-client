@@ -14,17 +14,17 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
 @Configuration
 public class LoadTask extends QuartzJobBean {
     @Bean
-    public JobDetail resourceTask() {
+    public JobDetail loadInfoTask() {
         return JobBuilder.newJob(LoadTask.class).withIdentity("loadInfoTask").storeDurably().build();
     }
 
     @Bean
-    public Trigger ResourceQuartzTrigger() {
+    public Trigger LoadQuartzTrigger() {
         // 3秒执行一次
         SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule()
-                .withIntervalInSeconds(3)
+                .withIntervalInSeconds(10)
                 .repeatForever();
-        return TriggerBuilder.newTrigger().forJob(resourceTask())
+        return TriggerBuilder.newTrigger().forJob(loadInfoTask())
                 .withIdentity("loadInfoTask")
                 .withSchedule(scheduleBuilder)
                 .build();

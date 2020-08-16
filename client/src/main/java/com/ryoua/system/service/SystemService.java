@@ -1,6 +1,7 @@
 package com.ryoua.system.service;
 
 import com.ryoua.system.config.Constants;
+import com.ryoua.system.model.Disk;
 import com.ryoua.system.model.SystemInfo;
 import com.ryoua.system.utils.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,30 +9,27 @@ import org.springframework.stereotype.Service;
 import oshi.hardware.*;
 import oshi.software.os.FileSystem;
 import oshi.software.os.OSFileStore;
+import oshi.software.os.OSProcess;
 import oshi.software.os.OperatingSystem;
 import oshi.util.FormatUtil;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Formatter;
+import java.util.List;
 
 /**
  * * @Author: RyouA
  * * @Date: 2020/8/12
  **/
 @Service
-public class SystemService {
+public class SystemService extends BaseService {
     @Autowired
     private LoadService loadService;
 
-    static final oshi.SystemInfo si = new oshi.SystemInfo();
 
-    static final HardwareAbstractionLayer hal = si.getHardware();
-
-    static final OperatingSystem os = si.getOperatingSystem();
-
-    static final Formatter formatter = new Formatter();
 
     public static String getOsName() {
         return os.toString();
@@ -75,75 +73,48 @@ public class SystemService {
         return stringBuilder.toString();
     }
 
-    public static String getDisks() {
-        StringBuilder stringBuilder = new StringBuilder();
-        HWDiskStore[] diskStores = hal.getDiskStores();
-        for (HWDiskStore disk : diskStores) {
-            stringBuilder.append(disk.getName()).append(": 磁盘名:").append(disk.getModel()).append(", 容量:").append(FormatUtil.formatBytesDecimal(disk.getSize()));
-            stringBuilder.append("\n");
-            HWPartition[] partitions = disk.getPartitions();
+
+
+    private static void printProcesses(OperatingSystem os, GlobalMemory memory) {
+        System.out.println("Processes: " + os.getProcessCount() + ", Threads: " + os.getThreadCount());
+        // Sort by highest CPU
+        List<OSProcess> procs = Arrays.asList(os.getProcesses(10, OperatingSystem.ProcessSort.CPU));
+
+        System.out.println("   PID  %CPU %MEM Name");
+        for (int i = 0; i < procs.size(); i++) {
+            OSProcess p = procs.get(i);
+            System.out.format(" %5d %5.1f %4.1f %s%n", p.getProcessID(),
+                    100d * (p.getKernelTime()) / p.getUpTime(),
+                    100d * p.getResidentSetSize() / memory.getTotal(), p.getName());
         }
-        return stringBuilder.toString();
     }
 
-    public static String getFileSystemDetail() {
-        StringBuilder stringBuilder = new StringBuilder();
 
-        FileSystem fileSystem = os.getFileSystem();
 
-        OSFileStore[] fsArray = fileSystem.getFileStores();
-        for (OSFileStore fs : fsArray) {
-            long usable = fs.getUsableSpace();
-            long total = fs.getTotalSpace();
-            stringBuilder.append(formatter.format(
-                    " %s (%s) [%s] %s of %s free (%.1f%%) is %s "
-                            + (fs.getLogicalVolume() != null && fs.getLogicalVolume().length() > 0 ? "[%s]" : "%s")
-                            + " and is mounted at %s%n",
-                    fs.getName(), fs.getDescription().isEmpty() ? "file system" : fs.getDescription(), fs.getType(),
-                    FormatUtil.formatBytes(usable), FormatUtil.formatBytes(fs.getTotalSpace()), 100d * usable / total,
-                    fs.getVolume(), fs.getLogicalVolume(), fs.getMount()));
-        }
-        return stringBuilder.toString();
-    }
-
-    public static String traffic() {
-        NetworkIF[] networkIFs = hal.getNetworkIFs();
-        StringBuilder stringBuilder = new StringBuilder();
-        for (NetworkIF net : networkIFs) {
-            boolean hasData = net.getBytesRecv() > 0 || net.getBytesSent() > 0 || net.getPacketsRecv() > 0
-                    || net.getPacketsSent() > 0;
-
-            stringBuilder.append("流量: 发送 " + (hasData ? net.getPacketsRecv() + "_packets " : "?") +
-                    (hasData ? oshi.util.FormatUtil.formatBytes(net.getBytesRecv()) : "?") +
-                    (hasData ? " (" + net.getInErrors() + " err) " : "") +
-                    "    接收 " +
-                    (hasData ? net.getPacketsSent() + "_packets " : "?") +
-                    (hasData ? oshi.util.FormatUtil.formatBytes(net.getBytesSent()) : "?") +
-                    (hasData ? " (" + net.getOutErrors() + " err)" : ""));
-        }
-        return stringBuilder.toString();
-    }
-
-    public SystemInfo getSystemInfo() throws UnknownHostException {
-        SystemInfo systemInfo = new SystemInfo();
-
-        systemInfo.setMid(Constants.mid);
-
-        systemInfo.setIp(getIp());
-        systemInfo.setHost(getHost());
-
-        systemInfo.setNetworkDetail(getNetworkDetail());
-        systemInfo.setOsName(getOsName());
-
-        systemInfo.setCpuCores(getCpuCores());
-        systemInfo.setCpuDetail(getCpuDetail());
-
-        systemInfo.setMemorySize(loadService.getMemoryLoad().getMemorySize());
-
-        systemInfo.setFileSystemDetail(getFileSystemDetail());
-
-        systemInfo.setUpdateTime(TimeUtil.getNowTime());
-        systemInfo.setUpdateTimeMills(System.currentTimeMillis());
-        return systemInfo;
-    }
+//    public static void main(String[] args) throws InterruptedException {
+//        System.out.println(getDisks());
+//    }
+//
+//    public SystemInfo getSystemInfo() throws UnknownHostException {
+//        SystemInfo systemInfo = new SystemInfo();
+//
+//        systemInfo.setMid(Constants.mid);
+//
+//        systemInfo.setIp(getIp());
+//        systemInfo.setHost(getHost());
+//
+//        systemInfo.setNetworkDetail(getNetworkDetail());
+//        systemInfo.setOsName(getOsName());
+//
+//        systemInfo.setCpuCores(getCpuCores());
+//        systemInfo.setCpuDetail(getCpuDetail());
+//
+//        systemInfo.setMemorySize(loadService.getMemoryLoad().getMemorySize());
+//
+//        systemInfo.setFileSystemDetail(getFileSystemDetail());
+//
+//        systemInfo.setUpdateTime(TimeUtil.getNowTime());
+//        systemInfo.setUpdateTimeMills(System.currentTimeMillis());
+//        return systemInfo;
+//    }
 }

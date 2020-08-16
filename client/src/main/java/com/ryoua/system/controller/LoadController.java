@@ -21,6 +21,7 @@ public class LoadController extends BaseController {
         try {
             HttpHeaders headers = new HttpHeaders();
             LoadInfo loadInfo = loadService.getLoadInfo();
+            log.info(loadInfo.toString());
             HttpEntity<LoadInfo> request = new HttpEntity<>(loadInfo, headers);
             String result = this.restTemplate.postForObject("http://" + host + ":" + port + "/loadInfo/register/" + autoRegister, request, String.class);
             log.info(result);

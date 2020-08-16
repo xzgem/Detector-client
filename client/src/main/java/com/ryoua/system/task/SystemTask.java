@@ -14,7 +14,7 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
 @Configuration
 public class SystemTask extends QuartzJobBean {
     @Bean
-    public JobDetail systemTask() {
+    public JobDetail systemInfoTask() {
         return JobBuilder.newJob(SystemTask.class).withIdentity("systemInfoTask").storeDurably().build();
     }
 
@@ -24,7 +24,7 @@ public class SystemTask extends QuartzJobBean {
         SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule()
                 .withIntervalInHours(1)
                 .repeatForever();
-        return TriggerBuilder.newTrigger().forJob(systemTask())
+        return TriggerBuilder.newTrigger().forJob(systemInfoTask())
                 .withIdentity("systemInfoTask")
                 .withSchedule(scheduleBuilder)
                 .build();
@@ -35,6 +35,6 @@ public class SystemTask extends QuartzJobBean {
 
     @Override
     public void executeInternal(JobExecutionContext context) {
-        systemController.sendSystemInfo();
+//        systemController.sendSystemInfo();
     }
 }
