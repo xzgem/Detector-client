@@ -1,4 +1,4 @@
-package com.ryoua.system.model;
+package com.ryoua.a.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,13 +13,13 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class DockerInfo {
+public class CpuLoad {
     private String mid;
 
-    private String dockerName;
-    private String dockerId;
-    private String dockerCpuUsage;
-    private String dockerMemoryUsage;
+    private Integer cpuCores;
+    private String cpuSystemUse;
+    private String cpuUserUse;
+    private String cpuUsage;
 
     private String updateTime;
     private Long updateTimeMills;

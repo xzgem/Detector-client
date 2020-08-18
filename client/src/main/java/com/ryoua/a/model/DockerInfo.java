@@ -1,4 +1,4 @@
-package com.ryoua.system.model;
+package com.ryoua.a.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,19 +7,19 @@ import lombok.ToString;
 
 /**
  * * @Author: RyouA
- * * @Date: 2020/8/13
+ * * @Date: 2020/8/12
  **/
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class ConnectionInfo {
+public class DockerInfo {
     private String mid;
 
-    private String ip;
-    private Integer port;
-
-    private Integer autoRegister;
+    private String dockerName;
+    private String dockerId;
+    private String dockerCpuUsage;
+    private String dockerMemoryUsage;
 
     private String updateTime;
     private Long updateTimeMills;

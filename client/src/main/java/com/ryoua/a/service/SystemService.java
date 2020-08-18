@@ -1,23 +1,15 @@
-package com.ryoua.system.service;
+package com.ryoua.a.service;
 
-import com.ryoua.system.config.Constants;
-import com.ryoua.system.model.Disk;
-import com.ryoua.system.model.SystemInfo;
-import com.ryoua.system.utils.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import oshi.hardware.*;
-import oshi.software.os.FileSystem;
-import oshi.software.os.OSFileStore;
 import oshi.software.os.OSProcess;
 import oshi.software.os.OperatingSystem;
 import oshi.util.FormatUtil;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Formatter;
 import java.util.List;
 
 /**

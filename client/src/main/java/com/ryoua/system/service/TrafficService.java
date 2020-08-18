@@ -7,14 +7,17 @@ import org.springframework.stereotype.Service;
 import oshi.hardware.NetworkIF;
 import oshi.util.FormatUtil;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * * @Author: RyouA
- * * @Date: 2020/8/15
+ * * @Date: 2020/8/18
  **/
 @Service
-public class TrafficService extends BaseService{
+public class TrafficService extends BaseService {
     static Map<String, NetworkIF> lastTraffic = new HashMap<>();
 
     static {
@@ -31,22 +34,23 @@ public class TrafficService extends BaseService{
             NetworkIF last = lastTraffic.get(net.getName());
             Traffic traffic = new Traffic();
 
+            traffic.setMid(Constants.mid);
             traffic.setNetworkInterfaceName(net.getName());
             traffic.setIpv4(net.getIPv4addr()[0]);
             traffic.setIpv6(net.getIPv6addr()[0]);
-            traffic.setCreateTime(TimeUtil.getNowTime());
-            traffic.setCreateTimeMills(TimeUtil.getNowTimeMills());
-            traffic.setMid(Constants.mid);
             traffic.setReceivePackets(net.getPacketsRecv() - last.getPacketsRecv());
             traffic.setSendPackets(net.getPacketsSent() - last.getPacketsSent());
             traffic.setReceiveSpeed(net.getBytesRecv() - last.getBytesRecv());
             traffic.setReceiveSpeedStr(FormatUtil.formatBytes(net.getBytesRecv() - last.getBytesRecv()));
             traffic.setSendSpeed(net.getBytesSent() - last.getBytesSent());
             traffic.setSendSpeedStr(FormatUtil.formatBytes(net.getBytesSent() - last.getBytesSent()));
-            lastTraffic.replace(net.getName(), net);
+            traffic.setCreateTime(TimeUtil.getNowTime());
+            traffic.setCreateTimeMills(TimeUtil.getNowTimeMills());
 
+            lastTraffic.replace(net.getName(), net);
             list.add(traffic);
         }
         return list;
     }
 }
+

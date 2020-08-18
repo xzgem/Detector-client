@@ -1,14 +1,8 @@
-package com.ryoua.system.controller;
+package com.ryoua.a.controller;
 
-import com.ryoua.system.model.SystemInfo;
-import com.ryoua.system.model.common.Result;
+import com.ryoua.system.controller.BaseController;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.net.UnknownHostException;
 
 /**
  * * @Author: RyouA

@@ -1,6 +1,6 @@
-package com.ryoua.system.task;
+package com.ryoua.a.task;
 
-import com.ryoua.system.controller.SystemController;
+import com.ryoua.a.controller.SystemController;
 import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

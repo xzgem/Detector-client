@@ -23,7 +23,7 @@ public class TrafficController extends BaseController {
             String result = this.restTemplate.postForObject("http://" + host + ":" + port + "/traffic/register/" + autoRegister, request, String.class);
             log.info(result);
         } catch (Exception e) {
-            log.info("发送信息失败");
+            log.info("流量信息发送失败");
         }
     }
 }

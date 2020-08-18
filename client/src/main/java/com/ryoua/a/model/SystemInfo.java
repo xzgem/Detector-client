@@ -1,9 +1,11 @@
-package com.ryoua.system.model;
+package com.ryoua.a.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
+import java.util.List;
 
 /**
  * * @Author: RyouA
@@ -13,13 +15,23 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class CpuLoad {
+public class SystemInfo {
     private String mid;
 
+    private String ip;
+    private String host;
+
+    private String osName;
+
+    private String networkDetail;
+
     private Integer cpuCores;
-    private String cpuSystemUse;
-    private String cpuUserUse;
-    private String cpuUsage;
+    private String cpuDetail;
+
+    private String memorySize;
+
+    private String fileSystemDetail;
+    private List<Disk> diskInfos;
 
     private String updateTime;
     private Long updateTimeMills;

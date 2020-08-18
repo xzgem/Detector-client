@@ -1,4 +1,4 @@
-package com.ryoua.system.service;
+package com.ryoua.a.service;
 
 import oshi.hardware.HardwareAbstractionLayer;
 import oshi.software.os.OperatingSystem;
@@ -7,7 +7,7 @@ import java.util.Formatter;
 
 /**
  * * @Author: RyouA
- * * @Date: 2020/8/18
+ * * @Date: 2020/8/16
  **/
 public class BaseService {
     static final oshi.SystemInfo si = new oshi.SystemInfo();

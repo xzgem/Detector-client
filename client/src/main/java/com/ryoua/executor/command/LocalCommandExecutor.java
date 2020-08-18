@@ -1,6 +1,6 @@
 package com.ryoua.executor.command;
 
-import com.ryoua.system.model.common.ExecuteResult;
+import com.ryoua.a.model.common.ExecuteResult;
 
 /**
  * * @Author: RyouA

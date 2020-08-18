@@ -14,7 +14,7 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
 @Configuration
 public class TrafficTask extends QuartzJobBean {
     @Bean
-    public JobDetail trafficInfoTask() {
+    public JobDetail trafficSendTask() {
         return JobBuilder.newJob(TrafficTask.class).withIdentity("trafficTask").storeDurably().build();
     }
 
@@ -24,7 +24,7 @@ public class TrafficTask extends QuartzJobBean {
         SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule()
                 .withIntervalInSeconds(1)
                 .repeatForever();
-        return TriggerBuilder.newTrigger().forJob(trafficInfoTask())
+        return TriggerBuilder.newTrigger().forJob(trafficSendTask())
                 .withIdentity("trafficTask")
                 .withSchedule(scheduleBuilder)
                 .build();

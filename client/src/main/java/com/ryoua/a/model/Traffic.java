@@ -1,13 +1,17 @@
-package com.ryoua.system.model;
+package com.ryoua.a.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /**
  * * @Author: RyouA
- * * @Date: 2020/8/18
+ * * @Date: 2020/8/12
  **/
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @ToString
 public class Traffic {
     private String mid;

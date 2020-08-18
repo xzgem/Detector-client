@@ -1,27 +1,25 @@
-package com.ryoua.system.model;
+package com.ryoua.a.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.util.Date;
-
 /**
  * * @Author: RyouA
- * * @Date: 2020/8/12
+ * * @Date: 2020/8/13
  **/
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class MemoryLoad {
+public class ConnectionInfo {
     private String mid;
 
-    private String memorySize;
-    private String memoryUse;
-    private String memoryLess;
-    private String memoryUsage;
+    private String ip;
+    private Integer port;
+
+    private Integer autoRegister;
 
     private String updateTime;
     private Long updateTimeMills;

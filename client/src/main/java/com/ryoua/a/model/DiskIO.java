@@ -1,4 +1,4 @@
-package com.ryoua.system.model;
+package com.ryoua.a.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

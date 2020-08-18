@@ -1,9 +1,9 @@
-package com.ryoua.system.service;
+package com.ryoua.a.service;
 
 import com.ryoua.system.config.Constants;
-import com.ryoua.system.model.CpuLoad;
-import com.ryoua.system.model.LoadInfo;
-import com.ryoua.system.model.MemoryLoad;
+import com.ryoua.a.model.CpuLoad;
+import com.ryoua.a.model.LoadInfo;
+import com.ryoua.a.model.MemoryLoad;
 import com.ryoua.system.utils.TimeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

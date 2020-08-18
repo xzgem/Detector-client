@@ -1,9 +1,10 @@
-package com.ryoua.system.controller;
+package com.ryoua.a.controller;
 
-import com.ryoua.system.model.CpuLoad;
-import com.ryoua.system.model.LoadInfo;
-import com.ryoua.system.model.MemoryLoad;
-import com.ryoua.system.model.common.Result;
+import com.ryoua.a.model.CpuLoad;
+import com.ryoua.a.model.LoadInfo;
+import com.ryoua.a.model.MemoryLoad;
+import com.ryoua.a.model.common.Result;
+import com.ryoua.system.controller.BaseController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
