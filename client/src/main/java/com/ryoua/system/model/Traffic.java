@@ -20,8 +20,9 @@ public class Traffic {
     private Long receivePackets;
 
     private Long receiveSpeed;
-    private String receiveSpeedStr;
     private Long sendSpeed;
+
+    private String receiveSpeedStr;
     private String sendSpeedStr;
 
     private String createTime;

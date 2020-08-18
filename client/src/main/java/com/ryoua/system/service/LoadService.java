@@ -1,9 +1,8 @@
-package com.ryoua.a.service;
+package com.ryoua.system.service;
 
 import com.ryoua.system.config.Constants;
-import com.ryoua.a.model.CpuLoad;
-import com.ryoua.a.model.LoadInfo;
-import com.ryoua.a.model.MemoryLoad;
+import com.ryoua.system.model.CpuLoad;
+import com.ryoua.system.model.MemoryLoad;
 import com.ryoua.system.utils.TimeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * * @Author: RyouA
- * * @Date: 2020/8/12
+ * * @Date: 2020/8/18
  **/
 @Service
 @Slf4j
@@ -25,6 +24,7 @@ public class LoadService {
     public CpuLoad getCpuLoad() {
         SystemInfo systemInfo = new SystemInfo();
         CpuLoad cpuLoad = new CpuLoad();
+
         try {
             CentralProcessor processor = systemInfo.getHardware().getProcessor();
             long[] prevTicks = processor.getSystemCpuLoadTicks();
@@ -40,55 +40,54 @@ public class LoadService {
             long iowait = ticks[CentralProcessor.TickType.IOWAIT.getIndex()] - prevTicks[CentralProcessor.TickType.IOWAIT.getIndex()];
             long idle = ticks[CentralProcessor.TickType.IDLE.getIndex()] - prevTicks[CentralProcessor.TickType.IDLE.getIndex()];
             long totalCpu = user + nice + cSys + idle + iowait + irq + softirq + steal;
-            cpuLoad.setCpuCores(processor.getLogicalProcessorCount());
-            cpuLoad.setCpuSystemUse(new DecimalFormat("#.##%").format(cSys * 1.0 / totalCpu));
-            cpuLoad.setCpuUserUse(new DecimalFormat("#.##%").format(user * 1.0 / totalCpu));
-            cpuLoad.setCpuUsage(new DecimalFormat("#.##%").format(1.0 - (idle * 1.0 / totalCpu)));
+
             cpuLoad.setMid(Constants.mid);
+            cpuLoad.setCpuCores(processor.getLogicalProcessorCount());
+            cpuLoad.setCpuSystemUsage(Double.parseDouble(new DecimalFormat("#.##").format(cSys * 1.0 / totalCpu)));
+            cpuLoad.setCpuUserUsage(Double.parseDouble(new DecimalFormat("#.##").format(user * 1.0 / totalCpu)));
+            cpuLoad.setCpuUsage(Double.parseDouble(new DecimalFormat("#.##").format(idle * 1.0 / totalCpu)));
+
+            cpuLoad.setCpuSystemUsageStr(new DecimalFormat("#.##%").format(cSys * 1.0 / totalCpu));
+            cpuLoad.setCpuUseUsageStr(new DecimalFormat("#.##%").format(user * 1.0 / totalCpu));
+            cpuLoad.setCpuUsageStr(new DecimalFormat("#.##%").format(1.0 - (idle * 1.0 / totalCpu)));
+
+            cpuLoad.setCreateTime(TimeUtil.getNowTime());
+            cpuLoad.setCreateTimeMills(TimeUtil.getNowTimeMills());
         } catch (InterruptedException e) {
             log.error(e.toString());
         }
+
+
+
+
         return cpuLoad;
     }
 
     public MemoryLoad getMemoryLoad() {
         SystemInfo systemInfo = new SystemInfo();
-        MemoryLoad memoryLoad = new MemoryLoad();
         GlobalMemory memory = systemInfo.getHardware().getMemory();
-        // 总内存
         long totalByte = memory.getTotal();
-        // 剩余
         long acaliableByte = memory.getAvailable();
-        memoryLoad.setMemorySize(formatByte(totalByte));
-        memoryLoad.setMemoryUse(formatByte(totalByte-acaliableByte));
-        memoryLoad.setMemoryUsage(new DecimalFormat("#.##%").format((totalByte-acaliableByte)*1.0/totalByte));
-        memoryLoad.setMemoryLess(formatByte(acaliableByte));
+        MemoryLoad memoryLoad = new MemoryLoad();
+
+        memoryLoad.setMid(Constants.mid);
+        memoryLoad.setMemorySize(totalByte);
+        memoryLoad.setMemoryUse(totalByte-acaliableByte);
+        memoryLoad.setMemoryLess(acaliableByte);
+        memoryLoad.setMemoryUsage(Double.parseDouble(new DecimalFormat("#.##").format((totalByte-acaliableByte)*1.0/totalByte)));
+
+        memoryLoad.setMemorySizeStr(formatByte(totalByte));
+        memoryLoad.setMemoryUseStr(formatByte(totalByte-acaliableByte));
+        memoryLoad.setMemoryLessStr(formatByte(acaliableByte));
+        memoryLoad.setMemoryUsageStr(new DecimalFormat("#.##%").format((totalByte-acaliableByte)*1.0/totalByte));
+
+        memoryLoad.setCreateTime(TimeUtil.getNowTime());
+        memoryLoad.setCreateTimeMills(TimeUtil.getNowTimeMills());
+
         return memoryLoad;
     }
 
-    public LoadInfo getLoadInfo() {
-        LoadInfo loadInfo = new LoadInfo();
-        loadInfo.setCpuLoad(getCpuLoad());
-        loadInfo.setMemoryLoad(getMemoryLoad());
-        loadInfo.setMid(Constants.mid);
-        loadInfo.setUpdateTime(TimeUtil.getNowTime());
-        loadInfo.setUpdateTimeMills(TimeUtil.getNowTimeMills());
-        return loadInfo;
-    }
-
-    public void setSysInfo(){
-        System.out.println("----------------操作系统信息----------------");
-        Properties props = System.getProperties();
-        //系统名称
-        String osName = props.getProperty("os.name");
-        //架构名称
-        String osArch = props.getProperty("os.arch");
-        System.out.println("操作系统名 = " + osName);
-        System.out.println("系统架构 = " + osArch);
-    }
-
-    // TODO: 暂时不用, 后面考虑JMX
-    public void setJvmInfo(){
+    public void getJvmInfo(){
         System.out.println("----------------jvm信息----------------");
         Properties props = System.getProperties();
         Runtime runtime = Runtime.getRuntime();
