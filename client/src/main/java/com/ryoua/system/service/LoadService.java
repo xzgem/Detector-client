@@ -2,6 +2,7 @@ package com.ryoua.system.service;
 
 import com.ryoua.system.config.Constants;
 import com.ryoua.system.model.CpuLoad;
+import com.ryoua.system.model.Load;
 import com.ryoua.system.model.MemoryLoad;
 import com.ryoua.system.utils.TimeUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +22,13 @@ import java.util.concurrent.TimeUnit;
 @Service
 @Slf4j
 public class LoadService {
+    public Load getLoad() {
+        Load load = new Load();
+        load.setCpuLoad(getCpuLoad());
+        load.setMemoryLoad(getMemoryLoad());
+        return load;
+    }
+
     public CpuLoad getCpuLoad() {
         SystemInfo systemInfo = new SystemInfo();
         CpuLoad cpuLoad = new CpuLoad();

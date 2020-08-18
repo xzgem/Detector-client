@@ -1,5 +1,6 @@
 package com.ryoua.system.controller;
 
+import com.ryoua.system.service.LoadService;
 import com.ryoua.system.service.TrafficService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,4 +25,7 @@ public class BaseController {
 
     @Autowired
     protected TrafficService trafficService;
+
+    @Autowired
+    protected LoadService loadService;
 }
