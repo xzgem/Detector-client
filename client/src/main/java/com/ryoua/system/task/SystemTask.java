@@ -21,7 +21,6 @@ public class SystemTask extends QuartzJobBean {
 
     @Bean
     public Trigger SystemQuartzTrigger() {
-        // 3秒执行一次
         SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule()
                 .withIntervalInSeconds(2)
                 .repeatForever();

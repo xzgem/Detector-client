@@ -21,7 +21,6 @@ public class LoadTask extends QuartzJobBean {
 
     @Bean
     public Trigger LoadQuartzTrigger() {
-        // 3秒执行一次
         SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule()
                 .withIntervalInSeconds(2)
                 .repeatForever();

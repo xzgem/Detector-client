@@ -20,7 +20,6 @@ public class TrafficTask extends QuartzJobBean {
 
     @Bean
     public Trigger TrafficQuartzTrigger() {
-        // 3秒执行一次
         SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule()
                 .withIntervalInSeconds(1)
                 .repeatForever();
