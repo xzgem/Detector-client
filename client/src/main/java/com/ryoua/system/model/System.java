@@ -2,9 +2,6 @@ package com.ryoua.system.model;
 
 import lombok.Data;
 import lombok.ToString;
-import lombok.extern.slf4j.Slf4j;
-
-import java.util.List;
 
 /**
  * * @Author: RyouA
