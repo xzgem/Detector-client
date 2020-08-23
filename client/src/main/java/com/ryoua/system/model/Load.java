@@ -10,6 +10,7 @@ import lombok.ToString;
 @Data
 @ToString
 public class Load {
-    CpuLoad cpuLoad;
-    MemoryLoad memoryLoad;
+    private CpuLoad cpuLoad;
+    private MemoryLoad memoryLoad;
+    private Long createTimeMills;
 }

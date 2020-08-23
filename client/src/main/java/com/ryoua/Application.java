@@ -1,6 +1,9 @@
 package com.ryoua;
 
+import com.ryoua.system.config.Constants;
+import com.ryoua.system.service.ConfigService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -17,7 +20,9 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 @Slf4j
 public class Application extends SpringBootServletInitializer {
+
     public static void main(String[] args) {
+        System.out.println(Constants.mid);
         SpringApplication.run(Application.class, args);
     }
 

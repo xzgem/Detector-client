@@ -22,7 +22,7 @@ public class LoadTask extends QuartzJobBean {
     @Bean
     public Trigger LoadQuartzTrigger() {
         SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule()
-                .withIntervalInSeconds(2)
+                .withIntervalInSeconds(3)
                 .repeatForever();
         return TriggerBuilder.newTrigger().forJob(loadSendTask())
                 .withIdentity("loadTask")

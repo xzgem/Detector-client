@@ -20,10 +20,13 @@ public class LoadController extends BaseController {
         try {
             HttpHeaders headers = new HttpHeaders();
             Load load = loadService.getLoad();
+            load.setCreateTimeMills(load.getCpuLoad().getCreateTimeMills());
             HttpEntity<Load> request = new HttpEntity<>(load, headers);
-            String result = this.restTemplate.postForObject("http://" + host + ":" + port + "/load/register/" + autoRegister, request, String.class);
+            String result = this.restTemplate.postForObject("http://" + host + ":" + port + "/load/register/" +
+                    (autoRegister ? 1 : 0), request, String.class);
             log.info(result);
         } catch (Exception e) {
+            log.error(e.toString());
             log.info("整体负载信息发送失败");
         }
     }

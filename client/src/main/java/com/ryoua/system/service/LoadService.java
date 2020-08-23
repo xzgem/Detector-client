@@ -51,9 +51,9 @@ public class LoadService {
 
             cpuLoad.setMid(Constants.mid);
             cpuLoad.setCpuCores(processor.getLogicalProcessorCount());
-            cpuLoad.setCpuSystemUsage(Double.parseDouble(new DecimalFormat("#.##").format(cSys * 1.0 / totalCpu)));
-            cpuLoad.setCpuUserUsage(Double.parseDouble(new DecimalFormat("#.##").format(user * 1.0 / totalCpu)));
-            cpuLoad.setCpuUsage(Double.parseDouble(new DecimalFormat("#.##").format(idle * 1.0 / totalCpu)));
+            cpuLoad.setCpuSystemUsage((cSys * 1.0 / totalCpu) * 100);
+            cpuLoad.setCpuUserUsage((user * 1.0 / totalCpu) * 100);
+            cpuLoad.setCpuUsage((1.0 - (idle * 1.0 / totalCpu)) * 100);
 
             cpuLoad.setCpuSystemUsageStr(new DecimalFormat("#.##%").format(cSys * 1.0 / totalCpu));
             cpuLoad.setCpuUseUsageStr(new DecimalFormat("#.##%").format(user * 1.0 / totalCpu));
@@ -82,7 +82,7 @@ public class LoadService {
         memoryLoad.setMemorySize(totalByte);
         memoryLoad.setMemoryUse(totalByte-acaliableByte);
         memoryLoad.setMemoryLess(acaliableByte);
-        memoryLoad.setMemoryUsage(Double.parseDouble(new DecimalFormat("#.##").format((totalByte-acaliableByte)*1.0/totalByte)));
+        memoryLoad.setMemoryUsage(((totalByte-acaliableByte)*1.0/totalByte) * 100);
 
         memoryLoad.setMemorySizeStr(formatByte(totalByte));
         memoryLoad.setMemoryUseStr(formatByte(totalByte-acaliableByte));
