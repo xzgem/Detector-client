@@ -26,6 +26,7 @@ public class LoadService {
         Load load = new Load();
         load.setCpuLoad(getCpuLoad());
         load.setMemoryLoad(getMemoryLoad());
+        load.setCreateTimeMills(System.currentTimeMillis());
         return load;
     }
 
